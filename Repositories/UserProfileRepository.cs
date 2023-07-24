@@ -67,7 +67,7 @@ namespace HealthLink.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = baseQuery + @"ORDER BY up.DisplayName";
+                    cmd.CommandText = baseQuery + @"ORDER BY up.Username";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {

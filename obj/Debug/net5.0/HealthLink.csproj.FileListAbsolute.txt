@@ -68,3 +68,6 @@ C:\Users\conor\workspace\csharp\HealthLink\obj\Debug\net5.0\refint\HealthLink.dl
 C:\Users\conor\workspace\csharp\HealthLink\obj\Debug\net5.0\HealthLink.pdb
 C:\Users\conor\workspace\csharp\HealthLink\obj\Debug\net5.0\HealthLink.genruntimeconfig.cache
 C:\Users\conor\workspace\csharp\HealthLink\obj\Debug\net5.0\ref\HealthLink.dll
+C:\Users\conor\workspace\csharp\HealthLink\bin\Debug\net5.0\client\package-lock.json
+C:\Users\conor\workspace\csharp\HealthLink\bin\Debug\net5.0\client\package.json
+C:\Users\conor\workspace\csharp\HealthLink\bin\Debug\net5.0\client\public\manifest.json
