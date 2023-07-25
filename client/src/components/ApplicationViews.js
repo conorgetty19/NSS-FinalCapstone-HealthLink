@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './Login'
 import Register from './Register'
+import { logout } from '../modules/authManager'
 
 export default function ApplicationViews({ isLoggedIn }) {
 
