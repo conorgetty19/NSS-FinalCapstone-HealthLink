@@ -34,6 +34,26 @@ namespace HealthLink
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HealthLink", Version = "v1" });
+
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Header,
+                    Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme,
+                    }
+                };
+
+                c.AddSecurityDefinition("Bearer", securitySchema);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { securitySchema, new[] { "Bearer"} }
+                });
             });
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
