@@ -48,6 +48,13 @@ namespace HealthLink.Controllers
             return Ok(_userProfileRepository.GetById(id));
         }
 
+        [HttpGet("userSearch/{email}")]
+
+        public IActionResult SearchUserProfile(string email)
+        {
+            return Ok(_userProfileRepository.GetByEmail(email));
+        }
+
         // POST api/<UserProfileController>
         [HttpPost]
         public IActionResult Post(UserProfile userProfile)

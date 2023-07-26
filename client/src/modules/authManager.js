@@ -68,3 +68,24 @@ export const onLoginStatusChange = (onLoginStatusChangeHandler) => {
     });
 };
 
+export const setLocalUserId = (email) => {
+    return getToken().then((token) => {
+        return fetch(`${_apiUrl}/userSearch/${email}`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            if (res.ok) {
+                return res.json()
+                    .then(userProfile => {
+                        localStorage.setItem("healthlink_user", JSON.stringify({
+                            id: userProfile.id
+                        }))
+                    })
+            } else {
+                throw new Error(`Failed to get user with email ${email}`)
+            }
+        })
+    })
+}

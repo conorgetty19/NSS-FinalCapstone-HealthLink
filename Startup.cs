@@ -56,6 +56,7 @@ namespace HealthLink
                 });
             });
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+            services.AddTransient<IGroupRepository,  GroupRepository>();
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
             services

@@ -12,6 +12,12 @@ namespace HealthLink.Models
         [StringLength(255)]
         public string Title { get; set; }
         [Required]
+        [StringLength(255)]
+        public string Description { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string ImageUrl { get; set; }
+        [Required]
         public DateTime CreatedDateTime { get; set; }
         [Required]
         public bool Active { get; set; }

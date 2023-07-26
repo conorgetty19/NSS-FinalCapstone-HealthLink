@@ -60,6 +60,31 @@ namespace HealthLink.Repositories
             }
         }
 
+        public UserProfile GetByEmail(string email)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = baseQuery + @" WHERE up.Email = @email";
+                    cmd.Parameters.AddWithValue("@email", email);
+
+                    UserProfile userProfile = null;
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        userProfile = NewUserProfile(reader);
+                    }
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
+        }
+
         public List<UserProfile> GetUsers()
         {
             using (SqlConnection conn = Connection)
