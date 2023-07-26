@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardBody, CardImg, CardText, CardTitle, CardSubtitle, Row, Col } from "reactstrap";
+import { Link } from "react-router-dom";
 
 export default function Group({ group }) {
     const cardStyle = {
@@ -21,7 +22,9 @@ export default function Group({ group }) {
                 className="img-fluid"
             />
             <CardBody>
-                <CardTitle>{group.title}</CardTitle>
+                <Link to={`/group/${group.id}`}>
+                    <CardTitle>{group.title}</CardTitle>
+                </Link>
                 <CardText>{group.description}</CardText>
                 <Row>
                     <Col xs="4"> {/* Adjust the column size to your preference */}
