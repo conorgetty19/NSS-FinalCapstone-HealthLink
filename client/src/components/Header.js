@@ -29,16 +29,16 @@ export default function Header({ isLoggedIn, role }) {
                                     <NavLink tag={RRNavLink} to="/">Home</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={RRNavLink} to="/groups">Groups</NavLink>
+                                    <NavLink tag={RRNavLink} to="/group/all">Groups</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={RRNavLink} to="/groups/create">Create A Group</NavLink>
+                                    <NavLink tag={RRNavLink} to="/group/create">Create A Group</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={RRNavLink} to="/challenges">Challenges</NavLink>
+                                    <NavLink tag={RRNavLink} to="/challenge/all">Challenges</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={RRNavLink} to="/challenges/create">Create A Challenge</NavLink>
+                                    <NavLink tag={RRNavLink} to="/challenge/create">Create A Challenge</NavLink>
                                 </NavItem>
                             </>
                         }

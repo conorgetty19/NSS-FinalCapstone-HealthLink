@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './auth/Login'
 import Register from './auth/Register'
 import MyGroupsList from './Homepage'
+import GroupsPage from './GroupsPage'
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -14,6 +15,9 @@ export default function ApplicationViews({ isLoggedIn }) {
                         index
                         element={isLoggedIn ? <MyGroupsList /> : <Navigate to="/login" />}
                     />
+                </Route>
+                <Route path="group">
+                    <Route path="all" element={isLoggedIn ? <GroupsPage /> : <Navigate to="/login" />} />
                 </Route>
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />

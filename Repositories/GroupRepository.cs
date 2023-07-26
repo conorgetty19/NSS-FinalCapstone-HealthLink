@@ -32,6 +32,27 @@ namespace HealthLink.Repositories
             }
         }
 
+        public List<Group> GetAllActive()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = queryAllGroupsWithActiveLeader;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        var groups = new List<Group>();
+                        while (reader.Read())
+                        {
+                            groups.Add(NewGroup(reader));
+                        }
+                        return groups;
+                    }
+                }
+            }
+        }
+
         public List<Group> GetAllGroupsByMemberId(int userId)
         {
             using (SqlConnection conn = Connection)
@@ -63,7 +84,23 @@ namespace HealthLink.Repositories
                                g.Description AS GroupDescription,
                                g.ImageUrl AS GroupImageUrl,
                                g.CreatedDateTime AS GroupCreatedDateTime,
-                               g.Active AS GroupActive,
+                               l.Id AS LeaderUserProfileId,
+                               l.FirebaseUserId AS LeaderUserProfileFirebaseUserId,
+                               l.Username AS LeaderUserProfileUsername,
+                               l.FullName AS LeaderUserProfileFullName,
+                               l.Email AS LeaderUserProfileEmail,
+                               l.ImageUrl AS LeaderUserProfileImageUrl,
+                               l.CreatedDateTime AS LeaderUserProfileCreatedDateTime
+                        FROM [Group] g
+                        LEFT JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id";
+
+        string queryAllGroupsWithActiveLeader = @"SELECT 
+                               g.Id AS GroupId,
+                               g.LeaderUserProfileId,
+                               g.Title AS GroupTitle,
+                               g.Description AS GroupDescription,
+                               g.ImageUrl AS GroupImageUrl,
+                               g.CreatedDateTime AS GroupCreatedDateTime,
                                l.Id AS LeaderUserProfileId,
                                l.FirebaseUserId AS LeaderUserProfileFirebaseUserId,
                                l.Username AS LeaderUserProfileUsername,
@@ -79,26 +116,35 @@ namespace HealthLink.Repositories
             Group group = new Group()
             {
                 Id = DbUtils.GetInt(reader, "GroupId"),
-                LeadUserProfileId = DbUtils.GetInt(reader, "LeaderUserProfileId"),
+                LeadUserProfileId = DbUtils.GetNullableInt(reader, "LeaderUserProfileId"),
                 Title = DbUtils.GetString(reader, "GroupTitle"),
                 Description = DbUtils.GetString(reader, "GroupDescription"),
                 ImageUrl = DbUtils.GetString(reader, "GroupImageUrl"),
                 CreatedDateTime = DbUtils.GetDateTime(reader, "GroupCreatedDateTime"),
-                Active = DbUtils.GetBool(reader, "GroupActive"),
-                LeadUserProfile = new UserProfile()
+            };
+
+            int? leaderUserProfileId = group.LeadUserProfileId;
+            if (leaderUserProfileId.HasValue)
+            {
+                group.LeadUserProfile = new UserProfile()
                 {
-                    Id = DbUtils.GetInt(reader, "LeaderUserProfileId"),
+                    Id = leaderUserProfileId.Value,
                     FirebaseUserId = DbUtils.GetString(reader, "LeaderUserProfileFirebaseUserId"),
                     Username = DbUtils.GetString(reader, "LeaderUserProfileUsername"),
                     FullName = DbUtils.GetString(reader, "LeaderUserProfileFullName"),
                     ImageUrl = DbUtils.GetString(reader, "LeaderUserProfileImageUrl"),
                     Email = DbUtils.GetString(reader, "LeaderUserProfileEmail"),
                     CreatedDateTime = DbUtils.GetDateTime(reader, "LeaderUserProfileCreatedDateTime")
-                }
+                };
+            }
+            else
+            {
+                group.LeadUserProfile = null;
+            }
 
-            };
             return group;
         }
+
 
     }
 }
