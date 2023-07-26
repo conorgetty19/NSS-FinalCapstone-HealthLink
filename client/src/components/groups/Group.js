@@ -29,13 +29,13 @@ export default function Group({ group }) {
                 <Row>
                     <Col xs="4"> {/* Adjust the column size to your preference */}
                         <CardImg
-                            src={group.leadUserProfile.imageUrl || defaultImageUrl}
+                            src={group.leadUserProfile?.imageUrl || defaultImageUrl}
                             alt="Leader Image"
                             className="img-fluid"
                         />
                     </Col>
                     <Col>
-                        <CardSubtitle>Leader: {group.leadUserProfile.username}</CardSubtitle>
+                        <CardSubtitle>Leader: {group.leadUserProfile?.username || "no current leader"}</CardSubtitle>
                     </Col>
                 </Row>
             </CardBody>

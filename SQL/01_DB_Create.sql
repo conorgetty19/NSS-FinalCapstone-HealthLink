@@ -49,12 +49,11 @@ GO
 
 CREATE TABLE [Group] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [LeaderUserProfileId] int NOT NULL,
+  [LeaderUserProfileId] int,
   [Title] NVARCHAR(255) NOT NULL,
   [Description] NVARCHAR(255) NOT NULL,
   [ImageUrl] NVARCHAR(255) NOT NULL,
-  [CreatedDateTime] DateTime NOT NULL,
-  [Active] bit
+  [CreatedDateTime] DateTime NOT NULL
 )
 GO
 
@@ -98,10 +97,11 @@ VALUES ('lnf98K7Wymg5WcD74jUITacXs522', 'user1_username', 'User 1', 'user1@examp
        ('IPAqfAX7xQZsklpuAaeck9C6qTl1', 'cgetty1', 'Conor Getty', 'conorgetty@gmail.com', NULL, GETDATE());
 
 -- Insert data into Group table
-INSERT INTO [Group] ([LeaderUserProfileId], [Title], [Description], [ImageUrl], [CreatedDateTime], [Active])
-VALUES (1, 'Group 1', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE(), 1),
-       (2, 'Group 2', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE(), 1),
-       (2, 'Group 3', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE(), 0);
+INSERT INTO [Group] ([LeaderUserProfileId], [Title], [Description], [ImageUrl], [CreatedDateTime])
+VALUES (1, 'Group 1', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE()),
+       (2, 'Group 2', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE()),
+       (2, 'Group 3', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE()),
+       (NULL, 'Group 4', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE());
 
 -- Insert data into GroupUser table
 INSERT INTO [GroupUser] ([GroupId], [UserProfileId])
@@ -109,7 +109,8 @@ VALUES (1, 1),
        (1, 2),
        (2, 2),
        (2, 3),
-       (3, 3);
+       (3, 3),
+       (4, 4);
 
 -- Insert data into Challenge table
 INSERT INTO [Challenge] ([CreatedDateTime], [EndDate], [Title], [Description], [GroupId])

@@ -22,6 +22,12 @@ namespace HealthLink.Controllers
             return Ok(_groupRepository.GetAll());
         }
 
+        [HttpGet("GetAllActive")]
+        public IActionResult GetAllActiveGroups()
+        {
+            return Ok(_groupRepository.GetAllActive());
+        }
+
         [HttpGet("GetByUserId/{userId}")]
         public IActionResult GetMyGroups(int userId) 
         {

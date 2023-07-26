@@ -14,7 +14,25 @@ export const getMyGroups = (userId) => {
                 return res.json();
             }
             else {
-                throw new Error("An unknown error occurred while trying to your groups.",)
+                throw new Error("An unknown error occurred while trying to retrieve your groups.",)
+            }
+        })
+    })
+}
+
+export const getAllActiveGroups = () => {
+    return getToken().then((token) => {
+        return fetch(baseAPIUrl + `/GetAllActive`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+            else {
+                throw new Error("An unknown error occurred while trying to retrieve all active groups.",)
             }
         })
     })
