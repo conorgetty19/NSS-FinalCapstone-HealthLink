@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './auth/Login'
 import Register from './auth/Register'
-import MyGroupsList from './groups/MyGroupsList'
+import MyGroupsList from './Homepage'
 
 export default function ApplicationViews({ isLoggedIn }) {
 

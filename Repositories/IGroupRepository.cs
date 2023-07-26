@@ -6,5 +6,6 @@ namespace HealthLink.Repositories
     public interface IGroupRepository
     {
         List<Group> GetAll();
+        List<Group> GetAllGroupsByMemberId(int userId);
     }
 }

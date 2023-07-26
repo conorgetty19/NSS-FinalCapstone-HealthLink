@@ -8,6 +8,7 @@ namespace HealthLink.Repositories
         void Add(UserProfile userProfile);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         UserProfile GetById(int id);
+        UserProfile GetByEmail(string email);
         List<UserProfile> GetUsers();
         void Update(UserProfile userProfile);
     }

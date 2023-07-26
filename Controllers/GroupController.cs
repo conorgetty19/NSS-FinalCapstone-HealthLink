@@ -22,11 +22,17 @@ namespace HealthLink.Controllers
             return Ok(_groupRepository.GetAll());
         }
 
+        [HttpGet("GetByUserId/{userId}")]
+        public IActionResult GetMyGroups(int userId) 
+        {
+            return Ok(_groupRepository.GetAllGroupsByMemberId(userId));
+        }
+
         // GET api/<GroupController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetById(int id)
         {
-            return "value";
+            return Ok();
         }
 
         // POST api/<GroupController>
