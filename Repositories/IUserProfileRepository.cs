@@ -11,5 +11,7 @@ namespace HealthLink.Repositories
         UserProfile GetByEmail(string email);
         List<UserProfile> GetUsers();
         void Update(UserProfile userProfile);
+        void AddGroupUser(GroupUser groupUser);
+        //GroupUser GetGroupUserById(int groupUserId);
     }
 }

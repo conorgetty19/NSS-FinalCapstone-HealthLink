@@ -8,5 +8,6 @@ namespace HealthLink.Repositories
         List<Group> GetAll();
         List<Group> GetAllActive();
         List<Group> GetAllGroupsByMemberId(int userId);
+        void Add(Group group);
     }
 }

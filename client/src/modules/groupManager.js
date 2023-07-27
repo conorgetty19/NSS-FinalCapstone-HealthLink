@@ -37,3 +37,22 @@ export const getAllActiveGroups = () => {
         })
     })
 }
+
+export const createGroup = (group) => {
+    return getToken().then((token) => {
+        return fetch(baseAPIUrl, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(group),
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error("An unknown error occurred while creating the group.");
+            }
+        });
+    });
+};

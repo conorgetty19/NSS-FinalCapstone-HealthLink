@@ -1,5 +1,7 @@
-﻿using HealthLink.Repositories;
+﻿using Azure;
+using HealthLink.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using HealthLink.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,8 +45,14 @@ namespace HealthLink.Controllers
 
         // POST api/<GroupController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post(Group group)
         {
+            if (group.LeadUserProfileId == null)
+            {
+                return BadRequest("LeadUserProfileId is required.");
+            }
+            _groupRepository.Add(group);
+            return CreatedAtAction(nameof(GetAllGroups), new { id = group.Id }, group);
         }
 
         // PUT api/<GroupController>/5

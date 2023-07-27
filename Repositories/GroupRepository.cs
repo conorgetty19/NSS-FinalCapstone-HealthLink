@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HealthLink.Models;
 using HealthLink.Utils;
 using System.Data;
+using Azure;
 
 namespace HealthLink.Repositories
 {
@@ -74,6 +75,28 @@ namespace HealthLink.Repositories
                         }
                         return groups;
                     }
+                }
+            }
+        }
+
+        public void Add(Group group)
+        {
+            group.CreatedDateTime = System.DateTime.Now;
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO [Group]
+                                        (LeaderUserProfileId, Title, [Description], ImageUrl, CreatedDateTime)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@leaderUserProfileId, @title, @description, @imageUrl, @createdDateTime)";
+                    cmd.Parameters.AddWithValue("@leaderUserProfileId", group.LeadUserProfileId);
+                    cmd.Parameters.AddWithValue("@title", group.Title);
+                    cmd.Parameters.AddWithValue("@description", group.Description);
+                    cmd.Parameters.AddWithValue("@imageUrl", group.ImageUrl);
+                    cmd.Parameters.AddWithValue("@createdDateTime", group.CreatedDateTime);
+                    group.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
