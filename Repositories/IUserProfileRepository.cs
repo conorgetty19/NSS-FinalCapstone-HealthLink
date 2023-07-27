@@ -10,6 +10,7 @@ namespace HealthLink.Repositories
         UserProfile GetById(int id);
         UserProfile GetByEmail(string email);
         List<UserProfile> GetUsers();
+        List<GroupUser> GetGroupMembersWithProfilesByGroupId(int groupId);
         void Update(UserProfile userProfile);
         void AddGroupUser(GroupUser groupUser);
         //GroupUser GetGroupUserById(int groupUserId);

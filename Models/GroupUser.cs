@@ -10,6 +10,6 @@ namespace HealthLink.Models
         [Required]
         public int UserProfileId { get; set; }
         public Group Group { get; set; }
-        public UserProfile UserProfile { get; set; }
+        public UserProfile? UserProfile { get; set; }
     }
 }
