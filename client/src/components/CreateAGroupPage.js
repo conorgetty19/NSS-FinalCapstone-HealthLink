@@ -3,14 +3,14 @@ import GroupForm from "./groups/GroupForm";
 import { createGroup } from "../modules/groupManager";
 import { addGroupUser } from "../modules/userProfileManager";
 import { useState, useEffect } from "react";
+import { getCurrentUserFromLocalStorage } from "../modules/userProfileManager";
 
 export default function CreateGroupPage() {
     const [leadUserProfileId, setLeadUserProfileId] = useState(null);
 
     useEffect(() => {
         // Get the leadUserProfileId from local storage on component mount
-        const localHealthLinkUser = localStorage.getItem("healthlink_user");
-        const HealthLinkUserObject = JSON.parse(localHealthLinkUser);
+        const HealthLinkUserObject = getCurrentUserFromLocalStorage();
         const userId = HealthLinkUserObject?.id || null;
         setLeadUserProfileId(userId);
     }, []);

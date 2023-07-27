@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getGroupById } from "../modules/groupManager";
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
+import { getCurrentUserFromLocalStorage } from "../modules/userProfileManager";
 
 
 export default function GroupDetailsPage() {
@@ -9,7 +10,8 @@ export default function GroupDetailsPage() {
     const { id } = useParams();
     const defaultImageUrl =
         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png";
-
+    const currentUser = getCurrentUserFromLocalStorage();
+    const currentUserId = currentUser.id;
 
     useEffect(() => {
         getGroupById(id)
@@ -21,6 +23,8 @@ export default function GroupDetailsPage() {
         return <div>Loading...</div>;
     }
 
+    const isMember = group.members.some((member) => member.userProfileId === currentUserId);
+
     return (
         <div>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -29,15 +33,21 @@ export default function GroupDetailsPage() {
                     <img src={group.imageUrl} alt="Group" style={{ width: "20%", height: "auto", marginRight: "10px" }} />
                 )}
                 <div className="mt-4">
-                    <Button color="primary" className="mr-2">
-                        Button 1
-                    </Button>
-                    <Button color="secondary" className="mr-2">
-                        Button 2
-                    </Button>
-                    <Button color="success">
-                        Button 3
-                    </Button>
+                    {!isMember && (
+                        <Button color="primary" className="mr-2">
+                            Join Group
+                        </Button>
+                    )}
+                    {isMember && (
+                        <Button color="secondary" className="mr-2">
+                            Leave Group
+                        </Button>
+                    )}
+                    {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null && (
+                        <Button color="success">
+                            Edit Group
+                        </Button>
+                    )}
                 </div>
             </div>
             <p>{group.description}</p>

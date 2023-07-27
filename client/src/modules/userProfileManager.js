@@ -20,3 +20,9 @@ export const addGroupUser = (groupUser) => {
         });
     });
 };
+
+export const getCurrentUserFromLocalStorage = () => {
+    const localHealthLinkUser = localStorage.getItem("healthlink_user");
+    const HealthLinkUserObject = JSON.parse(localHealthLinkUser);
+    return HealthLinkUserObject;
+}
