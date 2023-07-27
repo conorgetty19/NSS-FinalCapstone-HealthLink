@@ -81,6 +81,7 @@ namespace HealthLink.Repositories
 
         public void Add(Group group)
         {
+            group.CreatedDateTime = System.DateTime.Now;
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
@@ -88,7 +89,8 @@ namespace HealthLink.Repositories
                 {
                     cmd.CommandText = @"INSERT INTO [Group]
                                         (LeaderUserProfileId, Title, [Description], ImageUrl, CreatedDateTime)
-                                        VALUES (@leaderUserProfileId, @title, @description, @imageUrl, @createdDateTime";
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@leaderUserProfileId, @title, @description, @imageUrl, @createdDateTime)";
                     cmd.Parameters.AddWithValue("@leaderUserProfileId", group.LeadUserProfileId);
                     cmd.Parameters.AddWithValue("@title", group.Title);
                     cmd.Parameters.AddWithValue("@description", group.Description);

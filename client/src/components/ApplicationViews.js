@@ -4,6 +4,7 @@ import Login from './auth/Login'
 import Register from './auth/Register'
 import MyGroupsList from './Homepage'
 import GroupsPage from './GroupsPage'
+import CreateGroupPage from './CreateAGroupPage'
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -18,6 +19,7 @@ export default function ApplicationViews({ isLoggedIn }) {
                 </Route>
                 <Route path="group">
                     <Route path="all" element={isLoggedIn ? <GroupsPage /> : <Navigate to="/login" />} />
+                    <Route path="create" element={isLoggedIn ? <CreateGroupPage /> : <Navigate to="/login" />} />
                 </Route>
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />

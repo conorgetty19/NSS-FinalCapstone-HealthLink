@@ -47,6 +47,10 @@ namespace HealthLink.Controllers
         [HttpPost]
         public IActionResult Post(Group group)
         {
+            if (group.LeadUserProfileId == null)
+            {
+                return BadRequest("LeadUserProfileId is required.");
+            }
             _groupRepository.Add(group);
             return CreatedAtAction(nameof(GetAllGroups), new { id = group.Id }, group);
         }

@@ -68,6 +68,20 @@ namespace HealthLink.Controllers
                 );
         }
 
+        [HttpPost("groupuser")]
+        public IActionResult AddUserToGroup(GroupUser groupUser)
+        {
+            if (groupUser == null)
+            {
+                return BadRequest("Invalid group user data.");
+            }
+
+            _userProfileRepository.AddGroupUser(groupUser);
+
+            return Ok(groupUser);
+        }
+
+
         //// PUT api/<UserProfileController>/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody] string value)

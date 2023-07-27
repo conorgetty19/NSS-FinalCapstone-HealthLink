@@ -155,6 +155,47 @@ namespace HealthLink.Repositories
             }
         }
 
+        //public GroupUser GetGroupUserById(int groupUserId)
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"SELECT Id, UserProfileId, GroupId
+        //                        FROM GroupUser
+        //                        WHERE Id = @groupUserId;";
+        //            cmd.Parameters.AddWithValue("@groupUserId", groupUserId);
+
+        //            using (SqlDataReader reader = cmd.ExecuteReader())
+        //            {
+        //                if (reader.Read())
+        //                {
+        //                    return NewGroupUser(reader);
+        //                }
+        //                return null; // Return null if the group user with the specified Id is not found
+        //            }
+        //        }
+        //    }
+        //}
+
+        public void AddGroupUser(GroupUser groupUser)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO [GroupUser] (GroupId, UserProfileId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@groupId, @userProfileId)";
+                    cmd.Parameters.AddWithValue("@groupId", groupUser.GroupId);
+                    cmd.Parameters.AddWithValue("@userProfileId", groupUser.UserProfileId);
+                    groupUser.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
         /*
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
@@ -189,5 +230,15 @@ namespace HealthLink.Repositories
                 ImageUrl = DbUtils.GetString(reader, "ImageUrl")
             };
         }
+
+        //private GroupUser NewGroupUser(SqlDataReader reader)
+        //{
+        //    return new GroupUser()
+        //    {
+        //        Id = DbUtils.GetInt(reader, "Id"),
+        //        UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+        //        GroupId = DbUtils.GetInt(reader, "GroupId")
+        //    };
+        //}
     }
 }
