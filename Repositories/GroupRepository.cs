@@ -79,6 +79,28 @@ namespace HealthLink.Repositories
             }
         }
 
+        public Group GetGroupById(int groupId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT " + baseQueryWithoutSelect + " WHERE g.Id = @groupId";
+                    cmd.Parameters.AddWithValue("@groupId", groupId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return NewGroup(reader);
+                        }
+                        return null; 
+                    }
+                }
+            }
+        }
+
+
         public void Add(Group group)
         {
             group.CreatedDateTime = System.DateTime.Now;

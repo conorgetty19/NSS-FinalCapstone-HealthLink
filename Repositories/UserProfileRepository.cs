@@ -107,6 +107,44 @@ namespace HealthLink.Repositories
             }
         }
 
+        public List<GroupUser> GetGroupMembersWithProfilesByGroupId(int groupId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT gu.Id AS GroupUserId, gu.GroupId, gu.UserProfileId,
+                               up.Id AS UserProfileId, up.Username
+                               FROM GroupUser gu
+                               LEFT JOIN UserProfile up ON gu.UserProfileId = up.Id
+                               WHERE gu.GroupId = @groupId";
+                    cmd.Parameters.AddWithValue("@groupId", groupId);
+                    var reader = cmd.ExecuteReader();
+
+                    List<GroupUser> members = new List<GroupUser>();
+                    while (reader.Read())
+                    {
+                        GroupUser member = new GroupUser
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("GroupUserId")),
+                            GroupId = reader.GetInt32(reader.GetOrdinal("GroupId")),
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            UserProfile = new UserProfile
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                                Username = reader.GetString(reader.GetOrdinal("Username"))
+                            }
+                        };
+                        members.Add(member);
+                    }
+                    reader.Close();
+                    return members;
+                }
+            }
+        }
+
+
         public void Add(UserProfile userProfile)
         {
             using (var conn = Connection)

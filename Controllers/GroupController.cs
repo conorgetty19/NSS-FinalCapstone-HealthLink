@@ -12,9 +12,13 @@ namespace HealthLink.Controllers
     public class GroupController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
-        public GroupController(IGroupRepository groupRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IChallengeRepository _challengeRepository;
+        public GroupController(IGroupRepository groupRepository, IUserProfileRepository userProfileRepository, IChallengeRepository challengeRepository)
         {
             _groupRepository = groupRepository;
+            _userProfileRepository = userProfileRepository;
+            _challengeRepository = challengeRepository;
         }
 
         // GET: api/<GroupController>
@@ -38,10 +42,21 @@ namespace HealthLink.Controllers
 
         // GET api/<GroupController>/5
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetGroupById(int id)
         {
-            return Ok();
+            var group = _groupRepository.GetGroupById(id);
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            // Include the members and their user profiles
+            group.Members = _userProfileRepository.GetGroupMembersWithProfilesByGroupId(id);
+            group.Challenges = _challengeRepository.GetChallengesByGroupId(id);
+
+            return Ok(group);
         }
+
 
         // POST api/<GroupController>
         [HttpPost]

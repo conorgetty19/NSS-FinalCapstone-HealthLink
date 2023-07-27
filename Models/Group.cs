@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HealthLink.Models
@@ -20,5 +21,7 @@ namespace HealthLink.Models
         [Required]
         public DateTime CreatedDateTime { get; set; }
         public UserProfile? LeadUserProfile { get; set; }
+        public List<GroupUser>? Members { get; set; }
+        public List<Challenge>? Challenges { get; set; }
     }
 }
