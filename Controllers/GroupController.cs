@@ -72,9 +72,27 @@ namespace HealthLink.Controllers
 
         // PUT api/<GroupController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, Group updatedGroup)
         {
+            // Check if the provided group id exists
+            var existingGroup = _groupRepository.GetGroupById(id);
+            if (existingGroup == null)
+            {
+                return NotFound();
+            }
+
+            // Update the properties of the existing group with the new values
+            existingGroup.Title = updatedGroup.Title;
+            existingGroup.Description = updatedGroup.Description;
+            existingGroup.ImageUrl = updatedGroup.ImageUrl;
+            existingGroup.LeadUserProfileId = updatedGroup.LeadUserProfileId;
+
+            // Call the repository method to update the group
+            _groupRepository.Update(existingGroup);
+
+            return Ok(existingGroup);
         }
+
 
         // DELETE api/<GroupController>/5
         [HttpDelete("{id}")]

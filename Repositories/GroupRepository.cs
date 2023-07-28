@@ -123,6 +123,32 @@ namespace HealthLink.Repositories
             }
         }
 
+        public void Update(Group group)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE [Group] 
+                                SET LeaderUserProfileId = @leaderUserProfileId,
+                                    Title = @title,
+                                    [Description] = @description,
+                                    ImageUrl = @imageUrl
+                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", group.Id);
+                    cmd.Parameters.AddWithValue("@leaderUserProfileId", group.LeadUserProfileId);
+                    cmd.Parameters.AddWithValue("@title", group.Title);
+                    cmd.Parameters.AddWithValue("@description", group.Description);
+                    cmd.Parameters.AddWithValue("@imageUrl", group.ImageUrl);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
         string baseQueryWithoutSelect = @"g.Id AS GroupId,
                                g.LeaderUserProfileId,
                                g.Title AS GroupTitle,

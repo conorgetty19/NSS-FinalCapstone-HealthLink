@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { getGroupById } from "../modules/groupManager";
-import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button } from "reactstrap";
+import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, Nav } from "reactstrap";
 import { getCurrentUserFromLocalStorage } from "../modules/userProfileManager";
 
 
@@ -12,6 +12,7 @@ export default function GroupDetailsPage() {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png";
     const currentUser = getCurrentUserFromLocalStorage();
     const currentUserId = currentUser.id;
+    const Navigate = useNavigate();
 
     useEffect(() => {
         getGroupById(id)
@@ -43,11 +44,14 @@ export default function GroupDetailsPage() {
                             Leave Group
                         </Button>
                     )}
-                    {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null && (
-                        <Button color="success">
+                    {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null ? (
+                        <Button color="success"
+                            onClick={() => {
+                                Navigate(`/group/${group.id}/edit`);
+                            }}>
                             Edit Group
                         </Button>
-                    )}
+                    ) : null}
                 </div>
             </div>
             <p>{group.description}</p>
