@@ -25,7 +25,20 @@ namespace HealthLink.Repositories
                         var groups = new List<Group>();
                         while (reader.Read())
                         {
-                            groups.Add(NewGroup(reader));
+                            Group group = FindGroupInList(groups, reader);
+                            if (group == null)
+                            {
+                                group = NewGroup(reader);
+                                groups.Add(group);
+                            }
+                            else
+                            {
+                                Challenge challenge = FindChallengeInList(group.Challenges, reader);
+                                if (challenge == null)
+                                {
+                                    group.Challenges.Add(NewChallenge(reader)); // Add the challenge to the list
+                                }
+                            }
                         }
                         return groups;
                     }
@@ -46,7 +59,20 @@ namespace HealthLink.Repositories
                         var groups = new List<Group>();
                         while (reader.Read())
                         {
-                            groups.Add(NewGroup(reader));
+                            Group group = FindGroupInList(groups, reader);
+                            if (group == null)
+                            {
+                                group = NewGroup(reader);
+                                groups.Add(group);
+                            }
+                            else
+                            {
+                                Challenge challenge = FindChallengeInList(group.Challenges, reader);
+                                if (challenge == null)
+                                {
+                                    group.Challenges.Add(NewChallenge(reader)); // Add the challenge to the list
+                                }
+                            }
                         }
                         return groups;
                     }
@@ -63,7 +89,6 @@ namespace HealthLink.Repositories
                 {
                     cmd.CommandText = "SELECT DISTINCT " + baseQueryWithoutSelect + @"
 
-                        INNER JOIN [GroupUser] gu ON g.[Id] = gu.[GroupId]
                         WHERE gu.[UserProfileId] = @userId;";
                     cmd.Parameters.AddWithValue("@userId", userId);
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -71,7 +96,20 @@ namespace HealthLink.Repositories
                         var groups = new List<Group>();
                         while (reader.Read())
                         {
-                            groups.Add(NewGroup(reader));
+                            Group group = FindGroupInList(groups, reader);
+                            if (group == null)
+                            {
+                                group = NewGroup(reader);
+                                groups.Add(group);
+                            }
+                            else
+                            {
+                                Challenge challenge = FindChallengeInList(group.Challenges, reader);
+                                if (challenge == null)
+                                {
+                                    group.Challenges.Add(NewChallenge(reader)); // Add the challenge to the list
+                                }
+                            }
                         }
                         return groups;
                     }
@@ -149,38 +187,73 @@ namespace HealthLink.Repositories
         }
 
 
-        string baseQueryWithoutSelect = @"g.Id AS GroupId,
-                               g.LeaderUserProfileId,
-                               g.Title AS GroupTitle,
-                               g.Description AS GroupDescription,
-                               g.ImageUrl AS GroupImageUrl,
-                               g.CreatedDateTime AS GroupCreatedDateTime,
-                               l.Id AS LeaderUserProfileId,
-                               l.FirebaseUserId AS LeaderUserProfileFirebaseUserId,
-                               l.Username AS LeaderUserProfileUsername,
-                               l.FullName AS LeaderUserProfileFullName,
-                               l.Email AS LeaderUserProfileEmail,
-                               l.ImageUrl AS LeaderUserProfileImageUrl,
-                               l.CreatedDateTime AS LeaderUserProfileCreatedDateTime
-                        FROM [Group] g
-                        LEFT JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id";
+        string baseQueryWithoutSelect = @"
+                                        g.Id AS GroupId,
+                                        g.LeaderUserProfileId,
+                                        g.Title AS GroupTitle,
+                                        g.Description AS GroupDescription,
+                                        g.ImageUrl AS GroupImageUrl,
+                                        g.CreatedDateTime AS GroupCreatedDateTime,
+                                        l.Id AS LeaderUserProfileId,
+                                        l.FirebaseUserId AS LeaderUserProfileFirebaseUserId,
+                                        l.Username AS LeaderUserProfileUsername,
+                                        l.FullName AS LeaderUserProfileFullName,
+                                        l.Email AS LeaderUserProfileEmail,
+                                        l.ImageUrl AS LeaderUserProfileImageUrl,
+                                        l.CreatedDateTime AS LeaderUserProfileCreatedDateTime,
+                                        c.Id AS ChallengeId,
+                                        c.CreatedDateTime AS ChallengeCreatedDateTime,
+                                        c.EndDate AS ChallengeEndDateTime,
+                                        c.Title AS ChallengeTitle,
+                                        c.Description AS ChallengeDescription,
+                                        c.GroupId AS ChallengeGroupId,
+                                        gu.Id AS GroupUserId,
+                                        gu.UserProfileId AS GroupUserUserProfileId
+                                    FROM [Group] g
+                                    LEFT JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id
+                                    LEFT JOIN [Challenge] c ON g.Id = c.GroupId
+                                    LEFT JOIN [GroupUser] gu ON g.Id = gu.GroupId";
 
-        string queryAllGroupsWithActiveLeader = @"SELECT 
-                               g.Id AS GroupId,
-                               g.LeaderUserProfileId,
-                               g.Title AS GroupTitle,
-                               g.Description AS GroupDescription,
-                               g.ImageUrl AS GroupImageUrl,
-                               g.CreatedDateTime AS GroupCreatedDateTime,
-                               l.Id AS LeaderUserProfileId,
-                               l.FirebaseUserId AS LeaderUserProfileFirebaseUserId,
-                               l.Username AS LeaderUserProfileUsername,
-                               l.FullName AS LeaderUserProfileFullName,
-                               l.Email AS LeaderUserProfileEmail,
-                               l.ImageUrl AS LeaderUserProfileImageUrl,
-                               l.CreatedDateTime AS LeaderUserProfileCreatedDateTime
-                        FROM [Group] g
-                        INNER JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id";
+
+        string queryAllGroupsWithActiveLeader = @"
+                                            SELECT 
+                                                g.Id AS GroupId,
+                                                g.LeaderUserProfileId,
+                                                g.Title AS GroupTitle,
+                                                g.Description AS GroupDescription,
+                                                g.ImageUrl AS GroupImageUrl,
+                                                g.CreatedDateTime AS GroupCreatedDateTime,
+                                                l.Id AS LeaderUserProfileId,
+                                                l.FirebaseUserId AS LeaderUserProfileFirebaseUserId,
+                                                l.Username AS LeaderUserProfileUsername,
+                                                l.FullName AS LeaderUserProfileFullName,
+                                                l.Email AS LeaderUserProfileEmail,
+                                                l.ImageUrl AS LeaderUserProfileImageUrl,
+                                                l.CreatedDateTime AS LeaderUserProfileCreatedDateTime,
+                                                c.Id AS ChallengeId,
+                                                c.CreatedDateTime AS ChallengeCreatedDateTime,
+                                                c.EndDate AS ChallengeEndDateTime,
+                                                c.Title AS ChallengeTitle,
+                                                c.Description AS ChallengeDescription,
+                                                c.GroupId AS ChallengeGroupId,
+                                                gu.Id AS GroupUserId,
+                                                gu.UserProfileId AS GroupUserUserProfileId
+                                            FROM [Group] g
+                                            INNER JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id
+                                            LEFT JOIN [Challenge] c ON g.Id = c.GroupId
+                                            LEFT JOIN [GroupUser] gu ON g.Id = gu.GroupId";
+
+        private Group FindGroupInList(List<Group> groups, SqlDataReader reader)
+        {
+            int groupId = DbUtils.GetInt(reader, "GroupId");
+            return groups.Find(g => g.Id == groupId);
+        }
+
+        private Challenge FindChallengeInList(List<Challenge> challenges, SqlDataReader reader)
+        {
+            int challengeId = DbUtils.GetInt(reader, "ChallengeId");
+            return challenges.Find(c => c.Id == challengeId);
+        }
 
         private Group NewGroup(SqlDataReader reader)
         {
@@ -192,6 +265,7 @@ namespace HealthLink.Repositories
                 Description = DbUtils.GetString(reader, "GroupDescription"),
                 ImageUrl = DbUtils.GetString(reader, "GroupImageUrl"),
                 CreatedDateTime = DbUtils.GetDateTime(reader, "GroupCreatedDateTime"),
+                Challenges = new List<Challenge>()
             };
 
             int? leaderUserProfileId = group.LeadUserProfileId;
@@ -213,9 +287,27 @@ namespace HealthLink.Repositories
                 group.LeadUserProfile = null;
             }
 
+            if (!reader.IsDBNull(reader.GetOrdinal("ChallengeId")))
+            {
+                
+            }
+
             return group;
         }
 
+        private Challenge NewChallenge(SqlDataReader reader)
+        {
+            Challenge challenge = new Challenge()
+            {
+                Id = DbUtils.GetInt(reader, "ChallengeId"),
+                CreatedDateTime = DbUtils.GetDateTime(reader, "ChallengeCreatedDateTime"),
+                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDateTime"),
+                Title = DbUtils.GetString(reader, "ChallengeTitle"),
+                Description = DbUtils.GetString(reader, "ChallengeDescription"),
+                GroupId = DbUtils.GetInt(reader, "ChallengeGroupId")
+            };
 
+            return challenge;
+        }
     }
 }
