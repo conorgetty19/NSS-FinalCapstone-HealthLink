@@ -44,14 +44,14 @@ export default function GroupDetailsPage() {
                             Leave Group
                         </Button>
                     )}
-                    {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null && (
+                    {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null ? (
                         <Button color="success"
                             onClick={() => {
                                 Navigate(`/group/${group.id}/edit`);
                             }}>
                             Edit Group
                         </Button>
-                    )}
+                    ) : null}
                 </div>
             </div>
             <p>{group.description}</p>

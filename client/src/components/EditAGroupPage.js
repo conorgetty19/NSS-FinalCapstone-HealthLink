@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import GroupForm from "./GroupForm";
+import { useParams, useNavigate } from "react-router-dom";
+import GroupForm from "./groups/GroupForm";
 import { getGroupById } from "../modules/groupManager";
+import { updateGroup } from "../modules/groupManager";
 
 export default function EditAGroupPage() {
     const { id } = useParams();
     const [group, setGroup] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getGroupById(id)
@@ -15,7 +17,11 @@ export default function EditAGroupPage() {
 
     const handleFormSubmit = (formData) => {
         // Perform the update on the server side
-        updateGroup(group.id, formData)
+        updateGroup(group.id, formData).then(
+            () => {
+                navigate(`/group/${id}`)
+            }
+        )
     }
 
     if (!group) {
