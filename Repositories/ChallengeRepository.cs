@@ -42,6 +42,34 @@ namespace HealthLink.Repositories
                 }
             }
         }
+
+        public Challenge GetChallengeById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, CreatedDateTime, EndDate, Title, [Description], GroupId FROM Challenge
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Challenge challenge = new Challenge()
+                            {
+
+                            };
+                            return challenge;
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+
+
     }
 
 }
