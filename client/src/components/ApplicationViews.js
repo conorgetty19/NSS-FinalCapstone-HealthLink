@@ -7,6 +7,7 @@ import GroupsPage from './GroupsPage'
 import CreateGroupPage from './CreateAGroupPage'
 import GroupDetailsPage from './GroupDetailsPage'
 import EditAGroupPage from './EditAGroupPage'
+import ChallengeDetailsPage from './ChallengeDetailsPage'
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -24,6 +25,9 @@ export default function ApplicationViews({ isLoggedIn }) {
                     <Route path="create" element={isLoggedIn ? <CreateGroupPage /> : <Navigate to="/login" />} />
                     <Route path=":id" element={isLoggedIn ? <GroupDetailsPage /> : <Navigate to="/login" />} />
                     <Route path=":id/edit" element={isLoggedIn ? <EditAGroupPage /> : <Navigate to="/login" />} />
+                </Route>
+                <Route path="challenge">
+                    <Route path=":id" element={isLoggedIn ? <ChallengeDetailsPage /> : <Navigate to="/login" />} />
                 </Route>
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />

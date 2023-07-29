@@ -18,10 +18,12 @@ namespace HealthLink.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT Id AS ChallengeId,
-                                           GroupId,
-                                           Title AS ChallengeTitle,
-                                           Description AS ChallengeDescription
-                                    FROM [Challenge]
+                                        GroupId,
+                                        Title AS ChallengeTitle,
+                                        [Description]AS ChallengeDescription,
+                                        CreatedDateTime AS ChallengeStartDate,
+                                        EndDate AS ChallengeEndDate
+                                        FROM [Challenge] 
                                     WHERE GroupId = @groupId";
                     cmd.Parameters.AddWithValue("@groupId", groupId);
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -34,7 +36,9 @@ namespace HealthLink.Repositories
                                 Id = DbUtils.GetInt(reader, "ChallengeId"),
                                 GroupId = DbUtils.GetInt(reader, "GroupId"),
                                 Title = DbUtils.GetString(reader, "ChallengeTitle"),
-                                Description = DbUtils.GetString(reader, "ChallengeDescription")
+                                Description = DbUtils.GetString(reader, "ChallengeDescription"),
+                                CreatedDateTime = DbUtils.GetDateTime(reader, "ChallengeStartDate"),
+                                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDate")
                             });
                         }
                         return challenges;
@@ -50,8 +54,14 @@ namespace HealthLink.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, CreatedDateTime, EndDate, Title, [Description], GroupId FROM Challenge
-                                        WHERE Id = @id";
+                    cmd.CommandText = @"SELECT Id AS ChallengeId,
+                                        GroupId,
+                                        Title AS ChallengeTitle,
+                                        [Description] AS ChallengeDescription,
+                                        CreatedDateTime AS ChallengeStartDate,
+                                        EndDate AS ChallengeEndDate
+                                        FROM [Challenge] 
+                                    WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -59,7 +69,12 @@ namespace HealthLink.Repositories
                         {
                             Challenge challenge = new Challenge()
                             {
-
+                                Id = DbUtils.GetInt(reader, "ChallengeId"),
+                                GroupId = DbUtils.GetInt(reader, "GroupId"),
+                                Title = DbUtils.GetString(reader, "ChallengeTitle"),
+                                Description = DbUtils.GetString(reader, "ChallengeDescription"),
+                                CreatedDateTime = DbUtils.GetDateTime(reader, "ChallengeStartDate"),
+                                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDate")
                             };
                             return challenge;
                         }
