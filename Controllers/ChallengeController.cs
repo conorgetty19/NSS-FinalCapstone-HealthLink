@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using HealthLink.Repositories;
+using HealthLink.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +10,12 @@ namespace HealthLink.Controllers
     [ApiController]
     public class ChallengeController : ControllerBase
     {
+        private IChallengeRepository _challengeRepository;
+
+        public ChallengeController(IChallengeRepository challengeRepository)
+        {
+            _challengeRepository = challengeRepository;
+        }
         // GET: api/<ChallengeController>
         [HttpGet]
         public IActionResult Get()
@@ -17,9 +25,14 @@ namespace HealthLink.Controllers
 
         // GET api/<ChallengeController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetChallengeById(int id)
         {
-            return "value";
+            Challenge challenge = _challengeRepository.GetChallengeById(id);
+            if (challenge == null)
+            {
+                return NotFound();
+            }
+            return Ok(challenge);
         }
 
         // POST api/<ChallengeController>

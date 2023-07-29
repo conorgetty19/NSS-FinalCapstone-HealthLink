@@ -6,5 +6,6 @@ namespace HealthLink.Repositories
     public interface IChallengeRepository
     {
         List<Challenge> GetChallengesByGroupId(int groupId);
+        Challenge GetChallengeById(int id);
     }
 }

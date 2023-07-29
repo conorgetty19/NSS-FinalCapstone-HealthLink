@@ -31,14 +31,6 @@ namespace HealthLink.Repositories
                                 group = NewGroup(reader);
                                 groups.Add(group);
                             }
-                            else
-                            {
-                                Challenge challenge = FindChallengeInList(group.Challenges, reader);
-                                if (challenge == null)
-                                {
-                                    group.Challenges.Add(NewChallenge(reader)); // Add the challenge to the list
-                                }
-                            }
                         }
                         return groups;
                     }
@@ -64,14 +56,6 @@ namespace HealthLink.Repositories
                             {
                                 group = NewGroup(reader);
                                 groups.Add(group);
-                            }
-                            else
-                            {
-                                Challenge challenge = FindChallengeInList(group.Challenges, reader);
-                                if (challenge == null)
-                                {
-                                    group.Challenges.Add(NewChallenge(reader)); // Add the challenge to the list
-                                }
                             }
                         }
                         return groups;
@@ -101,14 +85,6 @@ namespace HealthLink.Repositories
                             {
                                 group = NewGroup(reader);
                                 groups.Add(group);
-                            }
-                            else
-                            {
-                                Challenge challenge = FindChallengeInList(group.Challenges, reader);
-                                if (challenge == null)
-                                {
-                                    group.Challenges.Add(NewChallenge(reader)); // Add the challenge to the list
-                                }
                             }
                         }
                         return groups;
@@ -201,17 +177,10 @@ namespace HealthLink.Repositories
                                         l.Email AS LeaderUserProfileEmail,
                                         l.ImageUrl AS LeaderUserProfileImageUrl,
                                         l.CreatedDateTime AS LeaderUserProfileCreatedDateTime,
-                                        c.Id AS ChallengeId,
-                                        c.CreatedDateTime AS ChallengeCreatedDateTime,
-                                        c.EndDate AS ChallengeEndDateTime,
-                                        c.Title AS ChallengeTitle,
-                                        c.Description AS ChallengeDescription,
-                                        c.GroupId AS ChallengeGroupId,
                                         gu.Id AS GroupUserId,
                                         gu.UserProfileId AS GroupUserUserProfileId
                                     FROM [Group] g
                                     LEFT JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id
-                                    LEFT JOIN [Challenge] c ON g.Id = c.GroupId
                                     LEFT JOIN [GroupUser] gu ON g.Id = gu.GroupId";
 
 
@@ -230,17 +199,10 @@ namespace HealthLink.Repositories
                                                 l.Email AS LeaderUserProfileEmail,
                                                 l.ImageUrl AS LeaderUserProfileImageUrl,
                                                 l.CreatedDateTime AS LeaderUserProfileCreatedDateTime,
-                                                c.Id AS ChallengeId,
-                                                c.CreatedDateTime AS ChallengeCreatedDateTime,
-                                                c.EndDate AS ChallengeEndDateTime,
-                                                c.Title AS ChallengeTitle,
-                                                c.Description AS ChallengeDescription,
-                                                c.GroupId AS ChallengeGroupId,
                                                 gu.Id AS GroupUserId,
                                                 gu.UserProfileId AS GroupUserUserProfileId
                                             FROM [Group] g
                                             INNER JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id
-                                            LEFT JOIN [Challenge] c ON g.Id = c.GroupId
                                             LEFT JOIN [GroupUser] gu ON g.Id = gu.GroupId";
 
         private Group FindGroupInList(List<Group> groups, SqlDataReader reader)
@@ -287,27 +249,7 @@ namespace HealthLink.Repositories
                 group.LeadUserProfile = null;
             }
 
-            if (!reader.IsDBNull(reader.GetOrdinal("ChallengeId")))
-            {
-                
-            }
-
             return group;
-        }
-
-        private Challenge NewChallenge(SqlDataReader reader)
-        {
-            Challenge challenge = new Challenge()
-            {
-                Id = DbUtils.GetInt(reader, "ChallengeId"),
-                CreatedDateTime = DbUtils.GetDateTime(reader, "ChallengeCreatedDateTime"),
-                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDateTime"),
-                Title = DbUtils.GetString(reader, "ChallengeTitle"),
-                Description = DbUtils.GetString(reader, "ChallengeDescription"),
-                GroupId = DbUtils.GetInt(reader, "ChallengeGroupId")
-            };
-
-            return challenge;
         }
     }
 }
