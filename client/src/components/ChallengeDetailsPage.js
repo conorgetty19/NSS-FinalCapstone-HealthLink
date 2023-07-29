@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getChallengeById } from '../modules/challengeManager';
 import { getGroupById } from '../modules/groupManager';
+import { getCurrentUserFromLocalStorage } from '../modules/userProfileManager';
 
 export default function ChallengeDetailsPage() {
     const { id } = useParams();
     const [challenge, setChallenge] = useState([]);
     const [group, setGroup] = useState([]);
+    const [isUserMember, setIsUserMember] = useState(false);
 
     useEffect(() => {
         // Fetch challenge details
@@ -20,7 +22,12 @@ export default function ChallengeDetailsPage() {
         // Fetch associated group details when the challenge state is updated
         if (challenge && challenge.groupId) {
             getGroupById(challenge.groupId)
-                .then((data) => setGroup(data))
+                .then((data) => {
+                    setGroup(data)
+                    const currentUser = getCurrentUserFromLocalStorage();
+                    const isMember = data.members.some((member) => member.userProfileId === currentUser.id);
+                    setIsUserMember(isMember);
+                })
                 .catch((error) => console.error(error));
         }
     }, [challenge]);
@@ -36,6 +43,9 @@ export default function ChallengeDetailsPage() {
         return (
             <div>
                 <h2>{challenge.title}</h2>
+                {isBeforeEndDate && isUserMember && (
+                    <Link to={`/challenge/${id}/edit`}>Edit</Link>
+                )}
                 <p>{challenge.description}</p>
                 <p>Start Date: {new Date(challenge.createdDateTime).toLocaleDateString()}</p>
                 <p>End Date: {new Date(challenge.endDateTime).toLocaleDateString()}</p>
