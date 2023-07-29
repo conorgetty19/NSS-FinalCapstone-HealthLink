@@ -3,16 +3,18 @@ import { Link, useParams } from 'react-router-dom';
 import { getChallengeById } from '../modules/challengeManager';
 import { getGroupById } from '../modules/groupManager';
 import { getCurrentUserFromLocalStorage } from '../modules/userProfileManager';
+import MemberResultCard from './results/MemberResultsCard';
+import { getResultsByChallengeId } from '../modules/resultManager';
 
 export default function ChallengeDetailsPage() {
     const { id } = useParams();
     const [challenge, setChallenge] = useState([]);
     const [group, setGroup] = useState([]);
     const [isLeader, setIsLeader] = useState(false);
+    const [results, setResults] = useState([]);
 
     useEffect(() => {
         // Fetch challenge details
-        console.log(id)
         getChallengeById(id)
             .then((data) => setChallenge(data))
             .catch((error) => console.error(error));
@@ -31,6 +33,15 @@ export default function ChallengeDetailsPage() {
                     }
                     setIsLeader(leaderStatus);
                 })
+                .catch((error) => console.error(error));
+        }
+    }, [challenge]);
+
+    useEffect(() => {
+        // Fetch associated results when the challenge state is updated
+        if (challenge && challenge.id) {
+            getResultsByChallengeId(challenge.id)
+                .then((data) => setResults(data))
                 .catch((error) => console.error(error));
         }
     }, [challenge]);
@@ -61,7 +72,9 @@ export default function ChallengeDetailsPage() {
                 )}
 
                 <h3>{isBeforeEndDate ? 'Member Progress' : 'Member Results'}</h3>
-                {/* Display member progress or member results here */}
+                {challenge && results.map((result) => (
+                    <MemberResultCard key={result.id} result={result} />
+                ))}
             </div>
         );
     };

@@ -15,6 +15,7 @@ namespace HealthLink.Models
         public string Content { get; set; }
         [Required]
         public DateTime UpdateDateTime { get; set; }
+        public GroupUser? groupUser { get; set; }
     }
 }
 
