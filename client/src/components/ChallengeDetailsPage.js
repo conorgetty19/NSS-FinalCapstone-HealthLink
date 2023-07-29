@@ -8,7 +8,7 @@ export default function ChallengeDetailsPage() {
     const { id } = useParams();
     const [challenge, setChallenge] = useState([]);
     const [group, setGroup] = useState([]);
-    const [isUserMember, setIsUserMember] = useState(false);
+    const [isLeader, setIsLeader] = useState(false);
 
     useEffect(() => {
         // Fetch challenge details
@@ -25,8 +25,11 @@ export default function ChallengeDetailsPage() {
                 .then((data) => {
                     setGroup(data)
                     const currentUser = getCurrentUserFromLocalStorage();
-                    const isMember = data.members.some((member) => member.userProfileId === currentUser.id);
-                    setIsUserMember(isMember);
+                    let leaderStatus = false;
+                    if (currentUser.id === data.leadUserProfileId) {
+                        leaderStatus = true;
+                    }
+                    setIsLeader(leaderStatus);
                 })
                 .catch((error) => console.error(error));
         }
@@ -43,7 +46,7 @@ export default function ChallengeDetailsPage() {
         return (
             <div>
                 <h2>{challenge.title}</h2>
-                {isBeforeEndDate && isUserMember && (
+                {isBeforeEndDate && isLeader && (
                     <Link to={`/challenge/${id}/edit`}>Edit</Link>
                 )}
                 <p>{challenge.description}</p>
