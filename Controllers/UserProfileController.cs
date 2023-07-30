@@ -81,6 +81,18 @@ namespace HealthLink.Controllers
             return Ok(groupUser);
         }
 
+        [HttpDelete("groupuser/{id}")]
+        public IActionResult DeleteGroupUserById(int id)
+        {
+            GroupUser groupUser = _userProfileRepository.GetGroupUserById(id);
+            if(groupUser == null)
+            {
+                return NotFound();
+            }
+            _userProfileRepository.DeleteGroupUser(groupUser.Id);
+            return NoContent();
+        }
+
         [HttpGet("GetGroupUserByBothIds/{groupId}/{userId}")]
         public IActionResult GetGroupUserByBothIds(int groupId, int userId)
         {

@@ -315,5 +315,59 @@ namespace HealthLink.Repositories
                 }
             }
         }
+
+        //getGroupUserById
+        public GroupUser GetGroupUserById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, UserProfileId, GroupId
+                                FROM GroupUser
+                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Create a new GroupUser object and populate its properties from the reader
+                            GroupUser groupUser = new GroupUser
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                                GroupId = reader.GetInt32(reader.GetOrdinal("GroupId"))
+                                // Add more properties if necessary
+                            };
+
+                            return groupUser;
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+
+        //delete group user
+        public void DeleteGroupUser(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM GroupUser
+                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+        }
     }
 }

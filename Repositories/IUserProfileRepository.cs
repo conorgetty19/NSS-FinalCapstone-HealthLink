@@ -15,5 +15,7 @@ namespace HealthLink.Repositories
         void AddGroupUser(GroupUser groupUser);
         //GroupUser GetGroupUserById(int groupUserId);
         GroupUser GetGroupUserByBothIds(int groupId, int userId);
+        GroupUser GetGroupUserById(int id);
+        void DeleteGroupUser(int id);
     }
 }
