@@ -278,5 +278,42 @@ namespace HealthLink.Repositories
         //        GroupId = DbUtils.GetInt(reader, "GroupId")
         //    };
         //}
+
+        public GroupUser GetGroupUserByBothIds(int groupId, int userId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, GroupId, UserProfileId
+                                FROM GroupUser
+                                WHERE GroupId = @groupId AND UserProfileId = @userId";
+
+                    cmd.Parameters.AddWithValue("@groupId", groupId);
+                    cmd.Parameters.AddWithValue("@userId", userId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Map the data to a GroupUser object and return it
+                            GroupUser groupUser = new GroupUser
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                GroupId = reader.GetInt32(reader.GetOrdinal("GroupId")),
+                                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"))
+                            };
+                            return groupUser;
+                        }
+                        else
+                        {
+                            // If no matching GroupUser is found, return null
+                            return null;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
