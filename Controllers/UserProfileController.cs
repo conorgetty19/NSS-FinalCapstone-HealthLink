@@ -81,6 +81,17 @@ namespace HealthLink.Controllers
             return Ok(groupUser);
         }
 
+        [HttpGet("GetGroupUserByBothIds/{groupId}/{userId}")]
+        public IActionResult GetGroupUserByBothIds(int groupId, int userId)
+        {
+            GroupUser groupUser = _userProfileRepository.GetGroupUserByBothIds(groupId, userId);
+            if (groupUser == null)
+            {
+                return NotFound();
+            }
+            return Ok(groupUser); 
+        }
+
 
         //// PUT api/<UserProfileController>/5
         //[HttpPut("{id}")]

@@ -2,6 +2,7 @@
 using HealthLink.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Client;
 using System.Collections.Generic;
 
 namespace HealthLink.Repositories
@@ -24,7 +25,7 @@ namespace HealthLink.Repositories
                                             r.UpdateDateTime AS ResultUpdateDateTime,
                                             gu.Id AS GroupUserId,
                                             gu.GroupId,
-                                            gu.UserProfileId,
+                                            gu.UserProfileId AS GroupUserUserProfileId,
                                             up.Id AS UserProfileId,
                                             up.FirebaseUserId,
                                             up.Username,
@@ -44,8 +45,8 @@ namespace HealthLink.Repositories
                     cmd.Parameters.AddWithValue("@challengeId", challengeId);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        List<Result > results = new List<Result>();
-                        while(reader.Read())
+                        List<Result> results = new List<Result>();
+                        while (reader.Read())
                         {
                             results.Add(new Result()
                             {
@@ -58,7 +59,7 @@ namespace HealthLink.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "GroupUserId"),
                                     GroupId = DbUtils.GetInt(reader, "GroupId"),
-                                    UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                                    UserProfileId = DbUtils.GetInt(reader, "GroupUserUserProfileId"),
                                     UserProfile = new UserProfile()
                                     {
                                         Id = DbUtils.GetInt(reader, "UserProfileId"),
@@ -74,6 +75,111 @@ namespace HealthLink.Repositories
                         }
                         return results;
                     }
+                }
+            }
+
+        }
+
+        public Result GetById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                SELECT 
+                    r.Id AS ResultId,
+                    r.ChallengeId AS ResultChallengeId,
+                    r.GroupUserId AS ResultGroupUserId,
+                    r.Content AS ResultContent,
+                    r.UpdateDateTime AS ResultUpdateDateTime
+                FROM 
+                    Result r
+                WHERE 
+                    r.Id = @id
+            ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Result()
+                            {
+                                Id = DbUtils.GetInt(reader, "ResultId"),
+                                ChallengeId = DbUtils.GetInt(reader, "ResultChallengeId"),
+                                GroupUserId = DbUtils.GetInt(reader, "ResultGroupUserId"),
+                                Content = DbUtils.GetString(reader, "ResultContent"),
+                                UpdateDateTime = DbUtils.GetDateTime(reader, "ResultUpdateDateTime")
+                            };
+                        }
+                        else
+                        {
+                            return null; // If no result with the specified Id is found, return null
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public void Add(Result result)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Result (GroupUserId, ChallengeId, Content, UpdateDateTime)
+                                OUTPUT INSERTED.ID
+                                VALUES (@groupUserId, @challengeId, @content, GETDATE())";
+
+                    cmd.Parameters.AddWithValue("@groupUserId", result.GroupUserId);
+                    cmd.Parameters.AddWithValue("@challengeId", result.ChallengeId);
+                    cmd.Parameters.AddWithValue("@content", result.Content);
+                    result.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Result result)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        UPDATE Result
+                                        SET Content = @content,
+                                            UpdateDateTime = GETDATE()
+                                        WHERE Id = @id
+                                                       ";
+                    cmd.Parameters.AddWithValue("@id", result.Id);
+                    cmd.Parameters.AddWithValue("@content", result.Content);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        public void Delete(int resultId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                DELETE FROM Result
+                WHERE Id = @resultId
+            ";
+
+                    cmd.Parameters.AddWithValue("@resultId", resultId);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

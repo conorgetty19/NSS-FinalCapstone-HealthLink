@@ -1,6 +1,7 @@
 ﻿using HealthLink.Models;
 using HealthLink.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,9 +27,14 @@ namespace HealthLink.Controllers
 
         // GET api/<ResultController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var result = _resultRepository.GetById(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
         [HttpGet("GetByChallengeId/{id}")]
@@ -40,20 +46,49 @@ namespace HealthLink.Controllers
 
         // POST api/<ResultController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post(Result result)
         {
+            _resultRepository.Add(result);
+            return Ok(result);
         }
 
         // PUT api/<ResultController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, Result updatedResult)
         {
+            var existingResult = _resultRepository.GetById(id);
+            if (existingResult == null)
+            {
+                return NotFound();
+            }
+            existingResult.Content = updatedResult.Content;
+            existingResult.UpdateDateTime = updatedResult.UpdateDateTime;
+
+            _resultRepository.Update(existingResult);
+            return Ok(existingResult);
         }
 
         // DELETE api/<ResultController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            Result resultToDelete = _resultRepository.GetById(id);
+
+            if (resultToDelete == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _resultRepository.Delete(id);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while deleting the result: {ex.Message}");
+            }
         }
     }
 }

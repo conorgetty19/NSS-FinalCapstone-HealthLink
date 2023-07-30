@@ -108,8 +108,8 @@ INSERT INTO [GroupUser] ([GroupId], [UserProfileId])
 VALUES (1, 1),
        (1, 2),
        (2, 2),
-       (2, 3),
        (3, 3),
+       (3, 4),
        (4, 4);
 
 -- Insert data into Challenge table
@@ -125,8 +125,7 @@ INSERT INTO [Result] ([GroupUserId], [ChallengeId], [Content], [UpdateDateTime])
 VALUES (1, 1, 'Result for Expired Challenge', DATEADD(DAY, -10, GETDATE())),
        (1, 2, 'Result for Ongoing Challenge 1', GETDATE()),
        (2, 2, 'Result for Ongoing Challenge 1', GETDATE()),
-       (2, 3, 'Result for Ongoing Challenge 2', GETDATE()),
        (3, 3, 'Result for Ongoing Challenge 2', GETDATE()),
-       (3, 4, 'Result for Ongoing Challenge 3', GETDATE()),
+       (4, 3, 'Result for Ongoing Challenge 2', GETDATE()), 
        (4, 4, 'Result for Ongoing Challenge 3', GETDATE()),
-       (5, 5, 'Result for Ongoing Challenge 4', GETDATE());
+       (5, 4, 'Result for Ongoing Challenge 3', GETDATE());
