@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getGroupById } from "../modules/groupManager";
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, Nav } from "reactstrap";
 import { getCurrentUserFromLocalStorage } from "../modules/userProfileManager";
-
+import { addGroupUser } from "../modules/userProfileManager";
+import { deleteGroupUser } from "../modules/userProfileManager";
 
 export default function GroupDetailsPage() {
     const [group, setGroup] = useState(null);
@@ -14,9 +15,30 @@ export default function GroupDetailsPage() {
     const currentUserId = currentUser.id;
     const Navigate = useNavigate();
 
+    const handleJoinGroup = () => {
+        const groupUser = {
+            groupId: group.id,
+            userProfileId: currentUserId,
+        };
+        addGroupUser(groupUser)
+            .then(() => {
+                window.location.reload();
+            })
+    };
+
+    const handleLeaveGroup = () => {
+        const groupUserId = groupUser.id;
+        deleteGroupUser(groupUserId)
+            .then(() => {
+                window.location.reload();
+            })
+    }
+
     useEffect(() => {
         getGroupById(id)
-            .then((data) => setGroup(data))
+            .then((data) => {
+                setGroup(data)
+            })
             .catch((error) => console.error("Error fetching group details:", error));
     }, [id]);
 
@@ -25,6 +47,7 @@ export default function GroupDetailsPage() {
     }
 
     const isMember = group.members.some((member) => member.userProfileId === currentUserId);
+    const groupUser = isMember ? group.members.find((member) => member.userProfileId === currentUserId) : null;
 
     return (
         <div>
@@ -35,12 +58,12 @@ export default function GroupDetailsPage() {
                 )}
                 <div className="mt-4">
                     {!isMember && (
-                        <Button color="primary" className="mr-2">
+                        <Button onClick={handleJoinGroup} color="primary" className="mr-2">
                             Join Group
                         </Button>
                     )}
                     {isMember && (
-                        <Button color="secondary" className="mr-2">
+                        <Button onClick={handleLeaveGroup} color="secondary" className="mr-2">
                             Leave Group
                         </Button>
                     )}

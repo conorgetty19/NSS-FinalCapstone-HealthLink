@@ -38,6 +38,18 @@ export const getGroupUserByBothIds = (groupId, userId) => {
     });
 };
 
+export const deleteGroupUser = (id) => {
+    return getToken().then((token) => {
+        return fetch(baseAPIUrl + `/groupuser/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        })
+    });
+};
+
 export const getCurrentUserFromLocalStorage = () => {
     const localHealthLinkUser = localStorage.getItem("healthlink_user");
     const HealthLinkUserObject = JSON.parse(localHealthLinkUser);
