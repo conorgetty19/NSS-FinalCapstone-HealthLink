@@ -53,7 +53,7 @@ const ResultCreatePage = () => {
         <div>
             <h2>Create Result</h2>
             <ResultForm result={{ challengeId, groupUserId, content }} onContentChange={handleContentChange} />
-            <button onClick={() => handleCreateResult}>Save</button>
+            <button onClick={handleCreateResult}>Save</button>
         </div>
     );
 };
