@@ -4,9 +4,11 @@ import { createGroup } from "../modules/groupManager";
 import { addGroupUser } from "../modules/userProfileManager";
 import { useState, useEffect } from "react";
 import { getCurrentUserFromLocalStorage } from "../modules/userProfileManager";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateGroupPage() {
     const [leadUserProfileId, setLeadUserProfileId] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Get the leadUserProfileId from local storage on component mount
@@ -27,9 +29,7 @@ export default function CreateGroupPage() {
                 };
                 addGroupUser(groupUserFormData)
                     .then((createdGroupUser) => {
-                        console.log("GroupUser created successfully:", createdGroupUser);
-                        console.log("Group created successfully:", createdGroup);
-                        // Handle success
+                        navigate(`/group/${createdGroup.id}`);
                     })
                     .catch((error) => {
                         console.error("Error creating GroupUser:", error);

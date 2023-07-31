@@ -35,7 +35,7 @@ export default function GroupForm({ group, leadUserProfileId, onSubmit }) {
     };
 
     return (
-        <form onSubmit={() => handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="title">Title:</label>
                 <input
