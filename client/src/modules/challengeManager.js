@@ -18,3 +18,22 @@ export const getChallengeById = (challengeId) => {
         });
     });
 };
+
+export const createChallenge = (challenge) => {
+    return getToken().then((token) => {
+        return fetch(baseAPIUrl, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(challenge),
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error("An unknown error occurred while creating the challenge.");
+            }
+        });
+    });
+};
