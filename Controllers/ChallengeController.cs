@@ -45,8 +45,18 @@ namespace HealthLink.Controllers
 
         // PUT api/<ChallengeController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, Challenge challenge)
         {
+            Challenge existingChallenge = _challengeRepository.GetChallengeById(id);
+            if (existingChallenge == null)
+            {
+                return NotFound();
+            }
+            existingChallenge.EndDateTime = challenge.EndDateTime;
+            existingChallenge.Title = challenge.Title;
+            existingChallenge.Description = challenge.Description;
+            _challengeRepository.Update(existingChallenge);
+            return Ok(existingChallenge);
         }
 
         // DELETE api/<ChallengeController>/5

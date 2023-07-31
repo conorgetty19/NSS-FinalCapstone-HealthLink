@@ -9,7 +9,7 @@ const CreateAChallengePage = () => {
     const [challenge, setChallenge] = useState({
         title: '',
         description: '',
-        endDate: '',
+        EndDateTime: '',
         groupId: '',
     });
     const [groupOptions, setGroupOptions] = useState([]);

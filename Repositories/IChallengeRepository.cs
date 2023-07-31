@@ -8,5 +8,6 @@ namespace HealthLink.Repositories
         List<Challenge> GetChallengesByGroupId(int groupId);
         Challenge GetChallengeById(int id);
         void Add(Challenge challenge);
+        void Update(Challenge challenge);
     }
 }
