@@ -33,7 +33,7 @@ GO
 CREATE TABLE [Challenge] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
   [CreatedDateTime] DateTime NOT NULL,
-  [EndDate] DateTime NOT NULL,
+  [EndDateTime] DateTime NOT NULL,
   [Title] NVARCHAR(100) NOT NULL,
   [Description] NVARCHAR(150) NOT NULL,
   [GroupId] int NOT NULL
@@ -113,7 +113,7 @@ VALUES (1, 1),
        (4, 4);
 
 -- Insert data into Challenge table
-INSERT INTO [Challenge] ([CreatedDateTime], [EndDate], [Title], [Description], [GroupId])
+INSERT INTO [Challenge] ([CreatedDateTime], [EndDateTime], [Title], [Description], [GroupId])
 VALUES (GETDATE(), DATEADD(DAY, -10, GETDATE()), 'Expired Challenge', 'This challenge has already ended.', 1),
        (GETDATE(), DATEADD(DAY, 30, GETDATE()), 'Ongoing Challenge 1', 'Description for Ongoing Challenge 1', 1),
        (GETDATE(), DATEADD(DAY, 45, GETDATE()), 'Ongoing Challenge 2', 'Description for Ongoing Challenge 2', 2),

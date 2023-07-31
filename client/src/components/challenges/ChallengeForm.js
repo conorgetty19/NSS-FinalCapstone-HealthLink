@@ -22,7 +22,7 @@ const ChallengeForm = ({ challenge, groups, onTitleChange, onDescriptionChange, 
             <input
                 type="datetime-local"
                 id="endDate"
-                value={challenge.endDate}
+                value={challenge.endDateTime}
                 onChange={(e) => onEndDateChange(e.target.value)}
             />
 

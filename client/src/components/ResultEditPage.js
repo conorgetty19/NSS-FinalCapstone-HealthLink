@@ -36,7 +36,7 @@ const ResultEditPage = () => {
         <div>
             <h2>Edit Result</h2>
             <ResultForm result={retrievedResult} onContentChange={handleContentChange} />
-            <button onClick={handleUpdateResult}>Update</button>
+            <button onClick={() => handleUpdateResult}>Update</button>
         </div>
     );
 };

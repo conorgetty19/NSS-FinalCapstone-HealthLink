@@ -11,6 +11,7 @@ import ChallengeDetailsPage from './ChallengeDetailsPage'
 import ResultCreatePage from './ResultCreatePage'
 import ResultEditPage from './ResultEditPage'
 import CreateAChallengePage from './CreateAChallengePage'
+import EditAChallengePage from './EditAChallengePage'
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -33,6 +34,7 @@ export default function ApplicationViews({ isLoggedIn }) {
                     <Route path="create" element={isLoggedIn ? <CreateAChallengePage /> : <Navigate to="/login" />} />
                     <Route path=":challengeId" element={isLoggedIn ? <ChallengeDetailsPage /> : <Navigate to="/login" />} />
                     <Route path=":challengeId/join" element={isLoggedIn ? <ResultCreatePage /> : <Navigate to="/login" />} />
+                    <Route path=":challengeId/edit" element={isLoggedIn ? <EditAChallengePage /> : <Navigate to="/login" />} />
                     <Route path="result/:resultId" element={isLoggedIn ? <ResultEditPage /> : <Navigate to="/login" />} />
                 </Route>
                 <Route path="login" element={<Login />} />

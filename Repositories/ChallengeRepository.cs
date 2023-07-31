@@ -22,7 +22,7 @@ namespace HealthLink.Repositories
                                         Title AS ChallengeTitle,
                                         [Description]AS ChallengeDescription,
                                         CreatedDateTime AS ChallengeStartDate,
-                                        EndDate AS ChallengeEndDate
+                                        EndDateTime AS ChallengeEndDateTime
                                         FROM [Challenge] 
                                     WHERE GroupId = @groupId";
                     cmd.Parameters.AddWithValue("@groupId", groupId);
@@ -38,7 +38,7 @@ namespace HealthLink.Repositories
                                 Title = DbUtils.GetString(reader, "ChallengeTitle"),
                                 Description = DbUtils.GetString(reader, "ChallengeDescription"),
                                 CreatedDateTime = DbUtils.GetDateTime(reader, "ChallengeStartDate"),
-                                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDate")
+                                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDateTime")
                             });
                         }
                         return challenges;
@@ -59,7 +59,7 @@ namespace HealthLink.Repositories
                                         Title AS ChallengeTitle,
                                         [Description] AS ChallengeDescription,
                                         CreatedDateTime AS ChallengeStartDate,
-                                        EndDate AS ChallengeEndDate
+                                        EndDateTime AS ChallengeEndDateTime
                                         FROM [Challenge] 
                                     WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
@@ -74,7 +74,7 @@ namespace HealthLink.Repositories
                                 Title = DbUtils.GetString(reader, "ChallengeTitle"),
                                 Description = DbUtils.GetString(reader, "ChallengeDescription"),
                                 CreatedDateTime = DbUtils.GetDateTime(reader, "ChallengeStartDate"),
-                                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDate")
+                                EndDateTime = DbUtils.GetDateTime(reader, "ChallengeEndDateTime")
                             };
                             return challenge;
                         }
@@ -93,15 +93,36 @@ namespace HealthLink.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Challenge (Title, Description, CreatedDateTime, EndDate, GroupId)
+                    cmd.CommandText = @"INSERT INTO Challenge (Title, Description, CreatedDateTime, EndDateTime, GroupId)
                                 OUTPUT INSERTED.ID
-                                VALUES (@title, @description, @createdDateTime, @endDate, @groupId);";
+                                VALUES (@title, @description, @createdDateTime, @endDateTime, @groupId);";
                     cmd.Parameters.AddWithValue("@title", challenge.Title);
                     cmd.Parameters.AddWithValue("@description", challenge.Description);
                     cmd.Parameters.AddWithValue("@createdDateTime", challenge.CreatedDateTime);
-                    cmd.Parameters.AddWithValue("@endDate", challenge.EndDateTime);
+                    cmd.Parameters.AddWithValue("@endDateTime", challenge.EndDateTime);
                     cmd.Parameters.AddWithValue("@groupId", challenge.GroupId);
                     challenge.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Challenge challenge)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Challenge
+                                SET Title = @title,
+                                    Description = @description,
+                                    EndDateTime = @endDateTime
+                                WHERE Id = @id;";
+                    cmd.Parameters.AddWithValue("@id", challenge.Id);
+                    cmd.Parameters.AddWithValue("@title", challenge.Title);
+                    cmd.Parameters.AddWithValue("@description", challenge.Description);
+                    cmd.Parameters.AddWithValue("@endDateTime", challenge.EndDateTime);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
