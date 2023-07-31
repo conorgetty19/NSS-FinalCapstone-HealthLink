@@ -84,6 +84,27 @@ namespace HealthLink.Repositories
             }
         }
 
+        public void Add(Challenge challenge)
+        {
+            //set creation date time to current date and time
+            challenge.CreatedDateTime = System.DateTime.Now;
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Challenge (Title, Description, CreatedDateTime, EndDate, GroupId)
+                                OUTPUT INSERTED.ID
+                                VALUES (@title, @description, @createdDateTime, @endDate, @groupId);";
+                    cmd.Parameters.AddWithValue("@title", challenge.Title);
+                    cmd.Parameters.AddWithValue("@description", challenge.Description);
+                    cmd.Parameters.AddWithValue("@createdDateTime", challenge.CreatedDateTime);
+                    cmd.Parameters.AddWithValue("@endDate", challenge.EndDateTime);
+                    cmd.Parameters.AddWithValue("@groupId", challenge.GroupId);
+                    challenge.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
 
     }
 

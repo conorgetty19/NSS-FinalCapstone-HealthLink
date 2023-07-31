@@ -37,8 +37,10 @@ namespace HealthLink.Controllers
 
         // POST api/<ChallengeController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post(Challenge challenge)
         {
+            _challengeRepository.Add(challenge);
+            return CreatedAtAction(nameof(GetChallengeById), new { id = challenge.Id }, challenge);
         }
 
         // PUT api/<ChallengeController>/5
