@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getChallengeById } from '../modules/challengeManager';
-import { getGroupById } from '../modules/groupManager';
-import { getCurrentUserFromLocalStorage } from '../modules/userProfileManager';
-import MemberResultCard from './results/MemberResultsCard';
-import { getResultsByChallengeId } from '../modules/resultManager';
+import { getChallengeById } from '../../modules/challengeManager';
+import { getGroupById } from '../../modules/groupManager';
+import { getCurrentUserFromLocalStorage } from '../../modules/userProfileManager';
+import MemberResultCard from '../results/MemberResultsCard';
+import { getResultsByChallengeId } from '../../modules/resultManager';
 
 export default function ChallengeDetailsPage() {
     const { challengeId } = useParams();

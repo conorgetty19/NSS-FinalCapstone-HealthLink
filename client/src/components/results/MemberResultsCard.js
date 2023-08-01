@@ -19,8 +19,8 @@ const MemberResultCard = ({ result, currentUser, isBeforeEndDate }) => {
                 <CardText>{new Date(result.updateDateTime).toLocaleString()}</CardText>
                 {currentUser.id === result.groupUser.userProfileId && (
                     <>
-                        {isBeforeEndDate && <Button onClick={handleEditClick}>Edit</Button>}
-                        <Button onClick={handleDeleteClick}>Delete</Button>
+                        {isBeforeEndDate && <Button color="primary" onClick={handleEditClick}>Edit</Button>}
+                        <Button onClick={handleDeleteClick} color="secondary">Delete</Button>
                     </>
                 )}
             </CardBody>

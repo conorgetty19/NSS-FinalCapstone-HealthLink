@@ -5,6 +5,22 @@ import { login, setLocalUserId } from "../../modules/authManager";
 
 export default function Login() {
     const navigate = useNavigate();
+    const pageStyle = {
+        width: "300px",
+        margin: "auto",
+        marginTop: "40px",
+        boxShadow: "0 10px 15px rgba(179, 179, 179, 0.7)",
+        padding: "15px"
+    }
+    const titleStyle = {
+        fontSize: "25px"
+    }
+
+    const subtextStyle = {
+        fontSize: "12px",
+        margin: "12px",
+        marginLeft: "0px"
+    }
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -17,7 +33,9 @@ export default function Login() {
     };
 
     return (
-        <Form onSubmit={loginSubmit}>
+        <Form style={pageStyle} onSubmit={loginSubmit}>
+            <h1 style={titleStyle}>Sign in</h1>
+            <h3 style={subtextStyle}>Stay fit with your friends</h3>
             <fieldset>
                 <FormGroup>
                     <Label for="email">Email</Label>
@@ -37,10 +55,10 @@ export default function Login() {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Button>Login</Button>
+                    <Button color="primary">Login</Button>
                 </FormGroup>
                 <em>
-                    Not registered? <Link to="/register">Register</Link>
+                    <Link to="/register">Not registered?</Link>
                 </em>
             </fieldset>
         </Form>

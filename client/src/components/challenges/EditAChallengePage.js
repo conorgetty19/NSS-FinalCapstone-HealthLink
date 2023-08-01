@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ChallengeForm from './challenges/ChallengeForm';
-import { getChallengeById, updateChallenge } from '../modules/challengeManager';
-import { getGroupById } from '../modules/groupManager';
+import ChallengeForm from './ChallengeForm';
+import { getChallengeById, updateChallenge } from '../../modules/challengeManager';
+import { getGroupById } from '../../modules/groupManager';
 
 const EditChallengePage = () => {
     const { challengeId } = useParams();
@@ -58,7 +58,7 @@ const EditChallengePage = () => {
 
     return (
         <div>
-            <h2>Edit Challenge</h2>
+            <h1>Edit Challenge</h1>
             <ChallengeForm
                 challenge={challenge}
                 groups={[groupOption]}

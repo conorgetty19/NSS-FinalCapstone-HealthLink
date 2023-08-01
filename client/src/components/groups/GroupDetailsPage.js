@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { getGroupById } from "../modules/groupManager";
+import { getGroupById } from "../../modules/groupManager";
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, Nav } from "reactstrap";
-import { getCurrentUserFromLocalStorage } from "../modules/userProfileManager";
-import { addGroupUser } from "../modules/userProfileManager";
-import { deleteGroupUser } from "../modules/userProfileManager";
+import { getCurrentUserFromLocalStorage } from "../../modules/userProfileManager";
+import { addGroupUser } from "../../modules/userProfileManager";
+import { deleteGroupUser } from "../../modules/userProfileManager";
 
 export default function GroupDetailsPage() {
     const [group, setGroup] = useState(null);
@@ -68,7 +68,7 @@ export default function GroupDetailsPage() {
                         </Button>
                     )}
                     {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null ? (
-                        <Button color="success"
+                        <Button color="primary"
                             onClick={() => {
                                 Navigate(`/group/${group.id}/edit`);
                             }}>

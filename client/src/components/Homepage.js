@@ -11,10 +11,14 @@ export default function MyGroupsList() {
         getMyGroups(healthLinkUserObject.id).then(setGroups)
     }, []);
 
+    const pageStyle = {
+        margin: "15px"
+    }
+
     return (
-        <>
+        <div style={pageStyle}>
             <h1>My Groups</h1>
             <GroupList GroupList={groups} />
-        </>
+        </div>
     )
 }

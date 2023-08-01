@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 export default function GroupForm({ group, leadUserProfileId, onSubmit }) {
     const [formData, setFormData] = useState({
@@ -34,40 +35,49 @@ export default function GroupForm({ group, leadUserProfileId, onSubmit }) {
         onSubmit(formData);
     };
 
+    const pageStyle = {
+        width: "300px",
+        margin: "auto",
+        marginTop: "40px",
+        boxShadow: "0 10px 15px rgba(179, 179, 179, 0.7)",
+        padding: "15px"
+    }
+
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="title">Title:</label>
-                <input
+        <Form style={pageStyle} onSubmit={handleSubmit}>
+            <FormGroup>
+                <Label htmlFor="title">Title:</Label>
+                <Input
                     type="text"
                     name="title"
                     id="title"
                     value={formData.title}
                     onChange={handleInputChange}
                 />
-            </div>
-            <div>
-                <label htmlFor="description">Description:</label>
-                <textarea
+            </FormGroup>
+            <FormGroup>
+                <Label htmlFor="description">Description:</Label>
+                <Input
+                    type="textarea"
                     name="description"
                     id="description"
                     value={formData.description}
                     onChange={handleInputChange}
                 />
-            </div>
-            <div>
-                <label htmlFor="imageUrl">Image URL:</label>
-                <input
+            </FormGroup>
+            <FormGroup>
+                <Label htmlFor="imageUrl">Image URL:</Label>
+                <Input
                     type="text"
                     name="imageUrl"
                     id="imageUrl"
                     value={formData.imageUrl}
                     onChange={handleInputChange}
                 />
-            </div>
-            {/* Hidden input field for leadUserProfileId */}
-            <input type="hidden" name="leadUserProfileId" value={formData.leadUserProfileId} />
-            <button type="submit">{group ? "Update Group" : "Create Group"}</button>
-        </form>
+            </FormGroup>
+            {/* Hidden Input field for leadUserProfileId */}
+            <Input type="hidden" name="leadUserProfileId" value={formData.leadUserProfileId} />
+            <Button type="submit" color="primary">{group ? "Update Group" : "Create Group"}</Button>
+        </Form>
     );
 }

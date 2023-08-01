@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import GroupForm from "./groups/GroupForm";
-import { getGroupById } from "../modules/groupManager";
-import { updateGroup } from "../modules/groupManager";
+import GroupForm from "./GroupForm";
+import { getGroupById } from "../../modules/groupManager";
+import { updateGroup } from "../../modules/groupManager";
 
 export default function EditAGroupPage() {
     const { id } = useParams();
