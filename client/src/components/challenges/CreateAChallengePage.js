@@ -15,6 +15,9 @@ const CreateAChallengePage = () => {
     const [groupOptions, setGroupOptions] = useState([]);
     const currentUser = getCurrentUserFromLocalStorage();
     const Navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px"
+    }
 
     useEffect(() => {
         getMyGroups(currentUser.id).then((groups) => {
@@ -51,7 +54,7 @@ const CreateAChallengePage = () => {
     };
 
     return (
-        <div>
+        <div style={pageStyle}>
             <h1>Create a Challenge</h1>
             <ChallengeForm
                 challenge={challenge}

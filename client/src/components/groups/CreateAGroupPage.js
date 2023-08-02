@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 export default function CreateGroupPage() {
     const [leadUserProfileId, setLeadUserProfileId] = useState(null);
     const navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px"
+    }
 
     useEffect(() => {
         // Get the leadUserProfileId from local storage on component mount
@@ -41,7 +44,7 @@ export default function CreateGroupPage() {
     };
 
     return (
-        <div>
+        <div style={pageStyle}>
             <h1>Create a Group</h1>
             <GroupForm
                 group={null}

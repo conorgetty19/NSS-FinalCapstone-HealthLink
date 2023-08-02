@@ -11,16 +11,24 @@ const MemberResultCard = ({ result, currentUser, isBeforeEndDate }) => {
             window.location.reload();
         })
     }
+    const cardStyle = {
+        width: "14rem",
+        margin: "5px"
+    }
+    const buttonStyle = {
+        marginRight: "5px",
+        marginLeft: "5px"
+    }
     return (
-        <Card>
+        <Card style={cardStyle}>
             <CardBody>
-                <CardTitle>{result.groupUser.userProfile.username}</CardTitle>
-                <CardText>{result.content}</CardText>
+                <CardTitle className='h4'>{result.groupUser.userProfile.username}</CardTitle>
+                <CardText className='h6'>{result.content}</CardText>
                 <CardText>{new Date(result.updateDateTime).toLocaleString()}</CardText>
                 {currentUser.id === result.groupUser.userProfileId && (
                     <>
-                        {isBeforeEndDate && <Button color="primary" onClick={handleEditClick}>Edit</Button>}
-                        <Button onClick={handleDeleteClick} color="secondary">Delete</Button>
+                        {isBeforeEndDate && <Button style={buttonStyle} color="primary" onClick={handleEditClick}>Edit</Button>}
+                        <Button style={buttonStyle} onClick={handleDeleteClick} color="secondary">Delete</Button>
                     </>
                 )}
             </CardBody>

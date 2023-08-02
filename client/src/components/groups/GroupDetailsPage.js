@@ -14,6 +14,17 @@ export default function GroupDetailsPage() {
     const currentUser = getCurrentUserFromLocalStorage();
     const currentUserId = currentUser.id;
     const Navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px",
+        height: "30rem",
+        width: "95%"
+    }
+    const editButtonStyle = {
+        marginLeft: "10px"
+    }
+    const columnStyle = {
+        width: "calc(100% / 3)"
+    }
 
     const handleJoinGroup = () => {
         const groupUser = {
@@ -50,70 +61,77 @@ export default function GroupDetailsPage() {
     const groupUser = isMember ? group.members.find((member) => member.userProfileId === currentUserId) : null;
 
     return (
-        <div>
-            <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={pageStyle} className="d-flex justify-content-between">
+            <div className="d-flex flex-column" style={columnStyle}>
                 <h1>{group.title}</h1>
-                {group.imageUrl && (
-                    <img src={group.imageUrl} alt="Group" style={{ width: "20%", height: "auto", marginRight: "10px" }} />
-                )}
-                <div className="mt-4">
-                    {!isMember && (
-                        <Button onClick={handleJoinGroup} color="primary" className="mr-2">
-                            Join Group
-                        </Button>
+                <div style={{ marginLeft: "1rem" }}>
+                    <p className="h6">Leader: {group.leadUserProfile.username}</p>
+                    {group.imageUrl && (
+                        <img src={group.imageUrl} alt="Group"
+                            style={{ width: "17.5rem", height: "auto", marginRight: "10px" }} />
                     )}
-                    {isMember && (
-                        <Button onClick={handleLeaveGroup} color="secondary" className="mr-2">
-                            Leave Group
-                        </Button>
-                    )}
-                    {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null ? (
-                        <Button color="primary"
-                            onClick={() => {
-                                Navigate(`/group/${group.id}/edit`);
-                            }}>
-                            Edit Group
-                        </Button>
-                    ) : null}
+                    <p className="h5">{group.description}</p>
+
+                    <div className="mt-2 mb-2">
+                        {!isMember && (
+                            <Button onClick={handleJoinGroup} color="primary" className="mr-2">
+                                Join Group
+                            </Button>
+                        )}
+                        {isMember && (
+                            <Button onClick={handleLeaveGroup} color="secondary" className="mr-2">
+                                Leave Group
+                            </Button>
+                        )}
+                        {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null ? (
+                            <Button color="primary"
+                                style={editButtonStyle}
+                                onClick={() => {
+                                    Navigate(`/group/${group.id}/edit`);
+                                }}>
+                                Edit Group
+                            </Button>
+                        ) : null}
+                    </div>
                 </div>
             </div>
-            <p>{group.description}</p>
 
-            <h2>Members</h2>
-            <div className="d-flex flex-wrap">
-                {group.members.map((member) => (
-                    <Card key={member.id} className="m-2" style={{ width: "18rem" }}>
-                        <CardImg
-                            top
-                            width="100%"
-                            src={member.userProfile.imageUrl || defaultImageUrl}
-                            alt={member.userProfile.username}
-                            style={{ width: "20%", height: "auto", marginRight: "10px" }}
-                        />
-                        <CardBody>
-                            <CardTitle tag="h5">{member.userProfile.username}</CardTitle>
-                            <CardSubtitle tag="h6" className="mb-2 text-muted">
-                                {/* You can display additional member details here */}
-                            </CardSubtitle>
-                        </CardBody>
-                    </Card>
-                ))}
+            <div style={columnStyle}>
+                <h2>Members</h2>
+                <div className="d-flex flex-wrap">
+                    {group.members.map((member) => (
+                        <Card key={member.id} className="m-2" style={{ width: "18rem" }}>
+                            <CardImg
+                                top
+                                width="100%"
+                                src={member.userProfile.imageUrl || defaultImageUrl}
+                                alt={member.userProfile.username}
+                                style={{ width: "20%", height: "auto", marginRight: "10px", marginLeft: "4px", marginTop: "4px" }}
+                            />
+                            <CardBody>
+                                <CardTitle tag="h5">{member.userProfile.username}</CardTitle>
+                                <CardSubtitle tag="h6" className="mb-2 text-muted">
+                                </CardSubtitle>
+                            </CardBody>
+                        </Card>
+                    ))}
+                </div>
             </div>
-
-            <h2>Challenges</h2>
-            <div className="d-flex flex-wrap">
-                {group.challenges.map((challenge) => (
-                    <Card key={challenge.id} className="m-2" style={{ width: "18rem" }}>
-                        <CardBody>
-                            <Link to={`/challenge/${challenge.id}`}>
-                                <CardTitle tag="h5">{challenge.title}</CardTitle>
-                            </Link>
-                            <CardText>{challenge.description}</CardText>
-                            {/* You can add more details or buttons related to the challenge here */}
-                        </CardBody>
-                    </Card>
-                ))}
+            <div style={columnStyle}>
+                <h2>Challenges</h2>
+                <div className="d-flex flex-wrap">
+                    {group.challenges.map((challenge) => (
+                        <Card key={challenge.id} className="m-2" style={{ width: "18rem" }}>
+                            <CardBody>
+                                <Link to={`/challenge/${challenge.id}`}>
+                                    <CardTitle tag="h5">{challenge.title}</CardTitle>
+                                </Link>
+                                <CardText>{challenge.description}</CardText>
+                            </CardBody>
+                        </Card>
+                    ))}
+                </div>
             </div>
-        </div>
+        </div >
     );
 }

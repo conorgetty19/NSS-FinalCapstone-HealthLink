@@ -31,13 +31,13 @@ export default function Group({ group }) {
                 className="img-fluid"
             />
             <CardBody>
-                <div className="d-flex">
+                <div className="d-flex h5">
                     <CardText style={nameStyle}>Name:</CardText>
                     <Link to={`/group/${group.id}`}>
                         <CardTitle>{group.title}</CardTitle>
                     </Link>
                 </div>
-                <CardText>Description: {group.description}</CardText>
+                <CardText className="h7">Description: {group.description}</CardText>
                 <Row>
                     <Col xs="4"> {/* Adjust the column size to your preference */}
                         <CardImg
@@ -47,7 +47,7 @@ export default function Group({ group }) {
                         />
                     </Col>
                     <Col>
-                        <CardSubtitle>Leader: {group.leadUserProfile?.username || "no current leader"}</CardSubtitle>
+                        <CardSubtitle className="h7">Leader: {group.leadUserProfile?.username || "no current leader"}</CardSubtitle>
                     </Col>
                 </Row>
             </CardBody>
