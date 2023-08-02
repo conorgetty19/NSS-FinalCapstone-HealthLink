@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import ResultForm from './results/ResultForm';
-import { createResult } from '../modules/resultManager';
+import ResultForm from './ResultForm';
+import { createResult } from '../../modules/resultManager';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getCurrentUserFromLocalStorage } from '../modules/userProfileManager';
-import { getChallengeById } from '../modules/challengeManager';
-import { getGroupUserByBothIds } from '../modules/userProfileManager';
+import { getCurrentUserFromLocalStorage } from '../../modules/userProfileManager';
+import { getChallengeById } from '../../modules/challengeManager';
+import { getGroupUserByBothIds } from '../../modules/userProfileManager';
+import { Button } from 'reactstrap'
 
 const ResultCreatePage = () => {
     const { challengeId } = useParams();
@@ -53,7 +54,7 @@ const ResultCreatePage = () => {
         <div>
             <h2>Create Result</h2>
             <ResultForm result={{ challengeId, groupUserId, content }} onContentChange={handleContentChange} />
-            <button onClick={handleCreateResult}>Save</button>
+            <Button onClick={handleCreateResult} color="primary">Save</Button>
         </div>
     );
 };

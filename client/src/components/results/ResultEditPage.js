@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ResultForm from './results/ResultForm';
-import { getResultById, updateResult } from '../modules/resultManager';
+import ResultForm from './ResultForm';
+import { getResultById, updateResult } from '../../modules/resultManager';
+import { Button } from 'reactstrap';
 
 const ResultEditPage = () => {
     const { resultId } = useParams();
@@ -36,7 +37,7 @@ const ResultEditPage = () => {
         <div>
             <h2>Edit Result</h2>
             <ResultForm result={retrievedResult} onContentChange={handleContentChange} />
-            <button onClick={handleUpdateResult}>Update</button>
+            <Button onClick={handleUpdateResult} color="primary">Update</Button>
         </div>
     );
 };

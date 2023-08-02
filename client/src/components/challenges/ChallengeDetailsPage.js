@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getChallengeById } from '../modules/challengeManager';
-import { getGroupById } from '../modules/groupManager';
-import { getCurrentUserFromLocalStorage } from '../modules/userProfileManager';
-import MemberResultCard from './results/MemberResultsCard';
-import { getResultsByChallengeId } from '../modules/resultManager';
+import { Button } from 'reactstrap';
+import { getChallengeById } from '../../modules/challengeManager';
+import { getGroupById } from '../../modules/groupManager';
+import { getCurrentUserFromLocalStorage } from '../../modules/userProfileManager';
+import MemberResultCard from '../results/MemberResultsCard';
+import { getResultsByChallengeId } from '../../modules/resultManager';
 
 export default function ChallengeDetailsPage() {
     const { challengeId } = useParams();
@@ -16,6 +17,12 @@ export default function ChallengeDetailsPage() {
     const [results, setResults] = useState([]);
     const currentUser = getCurrentUserFromLocalStorage();
     const Navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px"
+    }
+    const contentStyle = {
+        marginLeft: "1rem"
+    }
 
     useEffect(() => {
         // Fetch challenge details
@@ -87,33 +94,39 @@ export default function ChallengeDetailsPage() {
         }
 
         return (
-            <div>
-                <h2>{challenge.title}</h2>
-                {isBeforeEndDate && isLeader && (
-                    <Link to={`/challenge/${challengeId}/edit`}>Edit</Link>
-                )}
-                <p>{challenge.description}</p>
-                <p>Start Date: {new Date(challenge.createdDateTime).toLocaleDateString()}</p>
-                <p>End Date: {new Date(challenge.endDateTime).toLocaleDateString()}</p>
-
-                {group && (
-                    <p>
-                        Associated Group:{' '}
-                        <Link to={`/group/${group.id}`}>{group.title}</Link>
-                    </p>
-                )}
-                {isBeforeEndDate && isMember && !hasResults && <button onClick={handleJoinClick}>Join Challenge</button>}
-                <h3>{isBeforeEndDate ? 'Member Progress' : 'Member Results'}</h3>
-                {challenge && results.map((result) => (
-                    <MemberResultCard key={result.id} result={result} currentUser={currentUser} isBeforeEndDate={isBeforeEndDate} />
-                ))}
+            <div className='d-flex'>
+                <div style={contentStyle}>
+                    <p className='h5'>{challenge.description}</p>
+                    <div>
+                        <p className='h6'>Start Date: {new Date(challenge.createdDateTime).toLocaleDateString()}</p>
+                        <p className='h6'>End Date: {new Date(challenge.endDateTime).toLocaleDateString()}</p>
+                    </div>
+                    {group && (
+                        <p>
+                            Associated Group:{' '}
+                            <Link to={`/group/${group.id}`}>{group.title}</Link>
+                        </p>
+                    )}
+                    {isBeforeEndDate && isMember && !hasResults && <button onClick={handleJoinClick}>Join Challenge</button>}
+                    {isBeforeEndDate && isLeader && (
+                        <Button onClick={() => { Navigate(`/challenge/${challengeId}/edit`) }}>Edit Challenge</Button>
+                    )}
+                </div>
+                <div style={{ marginLeft: "5rem", marginTop: "3rem" }}>
+                    <h3 className="mt-3">{isBeforeEndDate ? 'Member Progress' : 'Member Results'}</h3>
+                    <div className="d-flex flex-wrap">
+                        {challenge && results.map((result) => (
+                            <MemberResultCard key={result.id} result={result} currentUser={currentUser} isBeforeEndDate={isBeforeEndDate} />
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     };
 
     return (
-        <div>
-            <h1>Challenge Details</h1>
+        <div style={pageStyle}>
+            <h1>{challenge.title} Details</h1>
             {renderChallengeDetails()}
         </div>
     );

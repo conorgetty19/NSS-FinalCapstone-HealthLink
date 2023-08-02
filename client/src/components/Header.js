@@ -14,15 +14,18 @@ import { logout } from '../modules/authManager';
 export default function Header({ isLoggedIn, role }) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
+    const headerColor = {
+        backgroundColor: "rgb(66, 135, 245)"
+    }
 
     return (
         <div>
-            <Navbar color="light" light expand="md">
+            <Navbar style={headerColor} light expand="md">
                 <NavbarBrand tag={RRNavLink} to="/">HealthLink</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
-                        { /* When isLoggedIn === true, we will render the Home link */}
+                        { /* When isLoggedIn === true, we will render the links */}
                         {isLoggedIn &&
                             <>
                                 <NavItem>
@@ -33,9 +36,6 @@ export default function Header({ isLoggedIn, role }) {
                                 </NavItem>
                                 <NavItem>
                                     <NavLink tag={RRNavLink} to="/group/create">Create A Group</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={RRNavLink} to="/challenge/all">Challenges</NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink tag={RRNavLink} to="/challenge/create">Create A Challenge</NavLink>

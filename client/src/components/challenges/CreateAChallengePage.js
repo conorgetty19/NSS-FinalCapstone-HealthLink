@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import ChallengeForm from './challenges/ChallengeForm';
-import { createChallenge } from '../modules/challengeManager';
+import ChallengeForm from './ChallengeForm';
+import { createChallenge } from '../../modules/challengeManager';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUserFromLocalStorage } from '../modules/userProfileManager';
-import { getMyGroups } from '../modules/groupManager';
+import { getCurrentUserFromLocalStorage } from '../../modules/userProfileManager';
+import { getMyGroups } from '../../modules/groupManager';
 
 const CreateAChallengePage = () => {
     const [challenge, setChallenge] = useState({
@@ -15,6 +15,9 @@ const CreateAChallengePage = () => {
     const [groupOptions, setGroupOptions] = useState([]);
     const currentUser = getCurrentUserFromLocalStorage();
     const Navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px"
+    }
 
     useEffect(() => {
         getMyGroups(currentUser.id).then((groups) => {
@@ -51,8 +54,8 @@ const CreateAChallengePage = () => {
     };
 
     return (
-        <div>
-            <h2>Create a Challenge</h2>
+        <div style={pageStyle}>
+            <h1>Create a Challenge</h1>
             <ChallengeForm
                 challenge={challenge}
                 groups={groupOptions}

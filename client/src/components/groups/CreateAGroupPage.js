@@ -1,14 +1,17 @@
 import React from "react";
-import GroupForm from "./groups/GroupForm";
-import { createGroup } from "../modules/groupManager";
-import { addGroupUser } from "../modules/userProfileManager";
+import GroupForm from "./GroupForm";
+import { createGroup } from "../../modules/groupManager";
+import { addGroupUser } from "../../modules/userProfileManager";
 import { useState, useEffect } from "react";
-import { getCurrentUserFromLocalStorage } from "../modules/userProfileManager";
+import { getCurrentUserFromLocalStorage } from "../../modules/userProfileManager";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateGroupPage() {
     const [leadUserProfileId, setLeadUserProfileId] = useState(null);
     const navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px"
+    }
 
     useEffect(() => {
         // Get the leadUserProfileId from local storage on component mount
@@ -41,8 +44,8 @@ export default function CreateGroupPage() {
     };
 
     return (
-        <div>
-            <h1>Create a New Group</h1>
+        <div style={pageStyle}>
+            <h1>Create a Group</h1>
             <GroupForm
                 group={null}
                 leadUserProfileId={leadUserProfileId}

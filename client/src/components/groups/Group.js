@@ -6,7 +6,16 @@ export default function Group({ group }) {
     const cardStyle = {
         maxWidth: "300px", // Set the maximum width of the card
         margin: "auto", // Center the card horizontally (optional)
+        marginTop: "10px",
+        marginBottom: "10px",
+        padding: "10px",
+        boxShadow: "0 10px 15px rgba(110, 110, 110, 1)",
+        backgroundColor: "rgb(175, 181, 189)"
     };
+
+    const nameStyle = {
+        marginRight: "10px"
+    }
 
     // Define the default image URL in case the leader image is null
     const defaultImageUrl =
@@ -22,10 +31,13 @@ export default function Group({ group }) {
                 className="img-fluid"
             />
             <CardBody>
-                <Link to={`/group/${group.id}`}>
-                    <CardTitle>{group.title}</CardTitle>
-                </Link>
-                <CardText>{group.description}</CardText>
+                <div className="d-flex h5">
+                    <CardText style={nameStyle}>Name:</CardText>
+                    <Link to={`/group/${group.id}`}>
+                        <CardTitle>{group.title}</CardTitle>
+                    </Link>
+                </div>
+                <CardText className="h7">Description: {group.description}</CardText>
                 <Row>
                     <Col xs="4"> {/* Adjust the column size to your preference */}
                         <CardImg
@@ -35,7 +47,7 @@ export default function Group({ group }) {
                         />
                     </Col>
                     <Col>
-                        <CardSubtitle>Leader: {group.leadUserProfile?.username || "no current leader"}</CardSubtitle>
+                        <CardSubtitle className="h7">Leader: {group.leadUserProfile?.username || "no current leader"}</CardSubtitle>
                     </Col>
                 </Row>
             </CardBody>
