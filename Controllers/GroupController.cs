@@ -2,6 +2,7 @@
 using HealthLink.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using HealthLink.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,6 +10,7 @@ namespace HealthLink.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GroupController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;

@@ -37,7 +37,6 @@ export default function Group({ group }) {
                         <CardTitle>{group.title}</CardTitle>
                     </Link>
                 </div>
-                <CardText className="h7">Description: {group.description}</CardText>
                 <Row>
                     <Col xs="4"> {/* Adjust the column size to your preference */}
                         <CardImg
@@ -50,6 +49,7 @@ export default function Group({ group }) {
                         <CardSubtitle className="h7">Leader: {group.leadUserProfile?.username || "no current leader"}</CardSubtitle>
                     </Col>
                 </Row>
+                <CardText className="h7">Description: {group.description}</CardText>
             </CardBody>
         </Card>
     );

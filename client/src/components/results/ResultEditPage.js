@@ -8,6 +8,9 @@ const ResultEditPage = () => {
     const { resultId } = useParams();
     const [retrievedResult, setResult] = useState(null);
     const navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px"
+    }
 
     useEffect(() => {
         // Fetch the result data based on the resultId from the URL
@@ -34,7 +37,7 @@ const ResultEditPage = () => {
     };
 
     return (
-        <div>
+        <div style={pageStyle}>
             <h2>Edit Result</h2>
             <ResultForm result={retrievedResult} onContentChange={handleContentChange} />
             <Button onClick={handleUpdateResult} color="primary">Update</Button>

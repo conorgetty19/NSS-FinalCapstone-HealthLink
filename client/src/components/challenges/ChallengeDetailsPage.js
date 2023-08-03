@@ -21,7 +21,8 @@ export default function ChallengeDetailsPage() {
         margin: "15px"
     }
     const contentStyle = {
-        marginLeft: "1rem"
+        marginLeft: "1rem",
+        width: "40%"
     }
 
     useEffect(() => {
@@ -98,8 +99,8 @@ export default function ChallengeDetailsPage() {
                 <div style={contentStyle}>
                     <p className='h5'>{challenge.description}</p>
                     <div>
-                        <p className='h6'>Start Date: {new Date(challenge.createdDateTime).toLocaleDateString()}</p>
-                        <p className='h6'>End Date: {new Date(challenge.endDateTime).toLocaleDateString()}</p>
+                        <p className='h6'>Start Date: {new Date(challenge.createdDateTime).toLocaleString()}</p>
+                        <p className='h6'>End Date: {new Date(challenge.endDateTime).toLocaleString()}</p>
                     </div>
                     {group && (
                         <p>
@@ -107,9 +108,12 @@ export default function ChallengeDetailsPage() {
                             <Link to={`/group/${group.id}`}>{group.title}</Link>
                         </p>
                     )}
-                    {isBeforeEndDate && isMember && !hasResults && <button onClick={handleJoinClick}>Join Challenge</button>}
+                    {isBeforeEndDate && isMember && !hasResults &&
+                        <Button color="primary"
+                            onClick={handleJoinClick}
+                            style={{ marginRight: "1rem" }}>Join Challenge</Button>}
                     {isBeforeEndDate && isLeader && (
-                        <Button onClick={() => { Navigate(`/challenge/${challengeId}/edit`) }}>Edit Challenge</Button>
+                        <Button color="primary" onClick={() => { Navigate(`/challenge/${challengeId}/edit`) }}>Edit Challenge</Button>
                     )}
                 </div>
                 <div style={{ marginLeft: "5rem", marginTop: "3rem" }}>
@@ -126,7 +130,7 @@ export default function ChallengeDetailsPage() {
 
     return (
         <div style={pageStyle}>
-            <h1>{challenge.title} Details</h1>
+            <h1 className='h2'>{challenge.title} Details</h1>
             {renderChallengeDetails()}
         </div>
     );
