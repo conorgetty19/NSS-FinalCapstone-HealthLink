@@ -91,41 +91,43 @@ USE [HealthLink]
 
 -- Insert data into UserProfile table
 INSERT INTO [UserProfile] ([FirebaseUserId], [Username], [FullName], [Email], [ImageUrl], [CreatedDateTime])
-VALUES ('lnf98K7Wymg5WcD74jUITacXs522', 'user1_username', 'User 1', 'user1@example.com', NULL, GETDATE()),
-       ('Q6w6S5qIKEeaGokHVhFwpnpefo92', 'user2_username', 'User 2', 'user2@example.com', NULL, GETDATE()),
-       ('4evHkRus1CUMoDLFpRwhrRJrlPg2', 'user3_username', 'User 3', 'user3@example.com', NULL, GETDATE()),
-       ('IPAqfAX7xQZsklpuAaeck9C6qTl1', 'cgetty1', 'Conor Getty', 'conorgetty@gmail.com', NULL, GETDATE());
+VALUES ('lnf98K7Wymg5WcD74jUITacXs522', 'johnLockeRocks', 'John Locke', 'user1@example.com', NULL, GETDATE()),
+       ('Q6w6S5qIKEeaGokHVhFwpnpefo92', 'johnRawlsRules', 'John Rawls', 'user2@example.com', 'https://news.harvard.edu/wp-content/uploads/2005/05/24-mm-2.jpg', GETDATE()),
+       ('4evHkRus1CUMoDLFpRwhrRJrlPg2', 'imannuelKantIsKool', 'Immanuel Kant', 'user3@example.com', NULL, GETDATE()),
+       ('IPAqfAX7xQZsklpuAaeck9C6qTl1', 'cgetty1', 'Conor Getty', 'conorgetty@gmail.com', 'https://avatars.githubusercontent.com/u/115668909?v=4', GETDATE());
 
 -- Insert data into Group table
 INSERT INTO [Group] ([LeaderUserProfileId], [Title], [Description], [ImageUrl], [CreatedDateTime])
-VALUES (1, 'Group 1', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE()),
-       (2, 'Group 2', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE()),
-       (2, 'Group 3', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE()),
-       (NULL, 'Group 4', 'fake description blah blah', 'https://img.freepik.com/premium-photo/fitness-workout-group-team-people-happy-portrait-good-training-exercise-gym-class-session-diverse-sports-friends-man-woman-face-together-health-wellness-body-strength_590464-78765.jpg?w=2000', GETDATE());
+VALUES (4, 'Marathon Runners Club', 'We love to run!', 'https://p1.pxfuel.com/preview/1008/216/990/race-marathon-runners-athletes.jpg', GETDATE()),
+       (2, 'Casual Swimmers Club', 'We swim, but our lives do not revolve around it', 'https://c1.peakpx.com/wallpaper/937/705/134/swimming-race-competition-start-wallpaper-preview.jpg', GETDATE()),
+       (1, 'Elderly Walkers Club', 'My grandson created this for me and I love it. Lets all walk together!', 'https://c0.wallpaperflare.com/preview/674/838/560/adults-benches-bicycles-camera.jpg', GETDATE()),
+       (4, 'AudioWalkers', 'Education is as important as being fit. We like to listen to audiobooks while we walk. Educational podcasts count!', 'https://img.ccnull.de/1045000/preview/1047374_6fa4018bb8c6f76dc442df701ce880b0.jpg', GETDATE()),
+       (3, 'Lockes Yoga Class', 'Famous philosopher teaches yoga on weeknights', 'https://c1.peakpx.com/wallpaper/192/259/699/asana-women-yoga-classes-fitness-wallpaper-preview.jpg', GETDATE());
 
 -- Insert data into GroupUser table
 INSERT INTO [GroupUser] ([GroupId], [UserProfileId])
-VALUES (1, 1),
+VALUES (1, 4),
        (1, 2),
        (2, 2),
+       (2, 4),
        (3, 3),
-       (3, 4),
-       (4, 4);
+       (3, 1),
+       (4, 4),
+       (4, 3),
+       (4, 2),
+       (4, 1),
+       (5, 3),
+       (5, 2);
 
 -- Insert data into Challenge table
 INSERT INTO [Challenge] ([CreatedDateTime], [EndDateTime], [Title], [Description], [GroupId])
-VALUES (GETDATE(), DATEADD(DAY, -10, GETDATE()), 'Expired Challenge', 'This challenge has already ended.', 1),
-       (GETDATE(), DATEADD(DAY, 30, GETDATE()), 'Ongoing Challenge 1', 'Description for Ongoing Challenge 1', 1),
-       (GETDATE(), DATEADD(DAY, 45, GETDATE()), 'Ongoing Challenge 2', 'Description for Ongoing Challenge 2', 2),
-       (GETDATE(), DATEADD(DAY, 60, GETDATE()), 'Ongoing Challenge 3', 'Description for Ongoing Challenge 3', 3),
-       (GETDATE(), DATEADD(DAY, 75, GETDATE()), 'Ongoing Challenge 4', 'Description for Ongoing Challenge 4', 2);
+VALUES ('2023-07-20 09:00:00', '2023-07-20 17:00:00', 'Marathon in the park', 'Come meet us in the park for a marathon!', 1),
+       (GETDATE(), DATEADD(DAY, 30, GETDATE()), 'Who can run the most miles?', 'Lets see who can run the most miles before the end', 1),
+       (GETDATE(), DATEADD(DAY, 365, GETDATE()), 'Thursday night class', 'We meet weekly at the library in the yoga section', 5),
+       (GETDATE(), DATEADD(DAY, 365, GETDATE()), 'Friday night class', 'We meet weekly at the library in the yoga section', 5);
 
 -- Insert data into Result table
 INSERT INTO [Result] ([GroupUserId], [ChallengeId], [Content], [UpdateDateTime])
-VALUES (1, 1, 'Result for Expired Challenge', DATEADD(DAY, -10, GETDATE())),
-       (1, 2, 'Result for Ongoing Challenge 1', GETDATE()),
-       (2, 2, 'Result for Ongoing Challenge 1', GETDATE()),
-       (3, 3, 'Result for Ongoing Challenge 2', GETDATE()),
-       (4, 3, 'Result for Ongoing Challenge 2', GETDATE()), 
-       (4, 4, 'Result for Ongoing Challenge 3', GETDATE()),
-       (5, 4, 'Result for Ongoing Challenge 3', GETDATE());
+VALUES (1, 1, 'Ran the race in 4 hours!', '2023-07-20 17:00:00'),
+       (2, 1, 'Finished in 3:59 ;)', '2023-07-20 16:59:00'),
+       (12, 4, 'Ill be there! Might be a little late', GETDATE());

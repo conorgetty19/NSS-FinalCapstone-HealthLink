@@ -115,7 +115,7 @@ namespace HealthLink.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT gu.Id AS GroupUserId, gu.GroupId, gu.UserProfileId,
-                               up.Id AS UserProfileId, up.Username
+                               up.Id AS UserProfileId, up.Username, up.ImageUrl
                                FROM GroupUser gu
                                LEFT JOIN UserProfile up ON gu.UserProfileId = up.Id
                                WHERE gu.GroupId = @groupId";
@@ -127,13 +127,14 @@ namespace HealthLink.Repositories
                     {
                         GroupUser member = new GroupUser
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("GroupUserId")),
+                            Id = reader.GetInt32(reader.GetOrdinal("GroupUserId")), 
                             GroupId = reader.GetInt32(reader.GetOrdinal("GroupId")),
                             UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
                             UserProfile = new UserProfile
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                                Username = reader.GetString(reader.GetOrdinal("Username"))
+                                Username = reader.GetString(reader.GetOrdinal("Username")),
+                                ImageUrl = DbUtils.GetString(reader, "ImageUrl")
                             }
                         };
                         members.Add(member);

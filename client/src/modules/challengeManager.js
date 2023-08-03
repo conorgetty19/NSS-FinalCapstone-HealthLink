@@ -39,21 +39,24 @@ export const createChallenge = (challenge) => {
 };
 
 export const updateChallenge = (challenge) => {
-    return fetch(`${baseAPIUrl}/${challenge.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(challenge),
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
+    return getToken().then((token) => {
+        return fetch(`${baseAPIUrl}/${challenge.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(challenge),
         })
-        .catch((error) => {
-            console.error("Error updating challenge:", error);
-            throw error;
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .catch((error) => {
+                console.error("Error updating challenge:", error);
+                throw error;
+            });
+    })
 };

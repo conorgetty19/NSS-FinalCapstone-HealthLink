@@ -63,12 +63,12 @@ export default function GroupDetailsPage() {
     return (
         <div style={pageStyle} className="d-flex justify-content-between">
             <div className="d-flex flex-column" style={columnStyle}>
-                <h1>{group.title}</h1>
+                <h2>{group.title}</h2>
                 <div style={{ marginLeft: "1rem" }}>
                     <p className="h6">Leader: {group.leadUserProfile.username}</p>
                     {group.imageUrl && (
                         <img src={group.imageUrl} alt="Group"
-                            style={{ width: "17.5rem", height: "auto", marginRight: "10px" }} />
+                            style={{ width: "80%", height: "auto", marginRight: "10px" }} />
                     )}
                     <p className="h5">{group.description}</p>
 

@@ -13,6 +13,9 @@ const ResultCreatePage = () => {
     const [groupUserId, setGroupUserId] = useState(0);
     const currentUserId = getCurrentUserFromLocalStorage().id;
     const navigate = useNavigate();
+    const pageStyle = {
+        margin: "15px"
+    }
 
     useEffect(() => {
         // Fetch the groupId and groupUserId using the API function
@@ -51,7 +54,7 @@ const ResultCreatePage = () => {
     };
 
     return (
-        <div>
+        <div style={pageStyle}>
             <h2>Create Result</h2>
             <ResultForm result={{ challengeId, groupUserId, content }} onContentChange={handleContentChange} />
             <Button onClick={handleCreateResult} color="primary">Save</Button>
