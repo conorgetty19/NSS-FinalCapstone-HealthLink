@@ -104,18 +104,5 @@ namespace HealthLink.Controllers
             }
             return Ok(groupUser); 
         }
-
-
-        //// PUT api/<UserProfileController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<UserProfileController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

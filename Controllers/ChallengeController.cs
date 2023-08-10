@@ -18,12 +18,6 @@ namespace HealthLink.Controllers
         {
             _challengeRepository = challengeRepository;
         }
-        // GET: api/<ChallengeController>
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok();
-        }
 
         // GET api/<ChallengeController>/5
         [HttpGet("{id}")]
@@ -59,12 +53,6 @@ namespace HealthLink.Controllers
             existingChallenge.Description = challenge.Description;
             _challengeRepository.Update(existingChallenge);
             return Ok(existingChallenge);
-        }
-
-        // DELETE api/<ChallengeController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

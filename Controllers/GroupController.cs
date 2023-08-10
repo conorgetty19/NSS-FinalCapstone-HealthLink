@@ -94,12 +94,5 @@ namespace HealthLink.Controllers
 
             return Ok(existingGroup);
         }
-
-
-        // DELETE api/<GroupController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
