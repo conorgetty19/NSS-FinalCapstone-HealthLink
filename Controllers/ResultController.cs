@@ -20,12 +20,6 @@ namespace HealthLink.Controllers
         {
             _resultRepository = resultRepository;
         }
-        // GET: api/<ResultController>
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok();
-        }
 
         // GET api/<ResultController>/5
         [HttpGet("{id}")]

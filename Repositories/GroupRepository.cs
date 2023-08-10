@@ -211,12 +211,6 @@ namespace HealthLink.Repositories
             return groups.Find(g => g.Id == groupId);
         }
 
-        private Challenge FindChallengeInList(List<Challenge> challenges, SqlDataReader reader)
-        {
-            int challengeId = DbUtils.GetInt(reader, "ChallengeId");
-            return challenges.Find(c => c.Id == challengeId);
-        }
-
         private Group NewGroup(SqlDataReader reader)
         {
             Group group = new Group()
