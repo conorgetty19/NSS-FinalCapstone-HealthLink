@@ -1,8 +1,16 @@
-﻿using HealthLink.Models;
+﻿/*
+    ResultRepository.cs
+
+    This file contains the implementation of the ResultRepository class, which provides methods
+    to interact with result data in the database. The class inherits from BaseRepository, which
+    helps to establish a database connection. The methods defined here allow performing CRUD
+    (Create, Read, Update, Delete) operations on result entities.
+*/
+
+using HealthLink.Models;
 using HealthLink.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Client;
 using System.Collections.Generic;
 
 namespace HealthLink.Repositories

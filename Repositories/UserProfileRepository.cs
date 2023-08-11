@@ -1,4 +1,12 @@
-﻿using Microsoft.Data.SqlClient;
+﻿/*
+    UserProfileRepository.cs
+
+    This class is responsible for interacting with the database to perform CRUD operations
+    related to user profiles and group-user relationships. It implements the IUserProfileRepository interface.
+
+*/
+
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using HealthLink.Models;
@@ -194,6 +202,8 @@ namespace HealthLink.Repositories
             }
         }
 
+        //associates a user with a group
+        //therefore creates a membership relationship
         public void AddGroupUser(GroupUser groupUser)
         {
             using (SqlConnection conn = Connection)
@@ -218,6 +228,7 @@ namespace HealthLink.Repositories
 
 ";
 
+        //utiltiy method to create a user profile object from a database query
         private UserProfile NewUserProfile(SqlDataReader reader)
         {
             return new UserProfile()
