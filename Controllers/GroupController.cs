@@ -1,4 +1,11 @@
-﻿using Azure;
+﻿/*
+    GroupController.cs
+
+    This controller handles API endpoints related to groups.
+    It provides methods for retrieving, creating, updating, and managing groups.
+
+*/
+
 using HealthLink.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using HealthLink.Models;

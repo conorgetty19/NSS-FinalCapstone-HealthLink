@@ -1,4 +1,12 @@
-﻿using HealthLink.Models;
+﻿/*
+    UserProfileController.cs
+
+    This controller handles API endpoints related to user profiles and group-user relationships.
+    It provides methods for retrieving, creating, updating, and deleting user profiles and group-user relationships.
+
+*/
+
+using HealthLink.Models;
 using HealthLink.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
