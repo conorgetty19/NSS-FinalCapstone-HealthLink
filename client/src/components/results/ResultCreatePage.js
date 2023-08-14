@@ -12,11 +12,14 @@ const ResultCreatePage = () => {
     const [content, setContent] = useState('');
     const [groupUserId, setGroupUserId] = useState(0);
     const currentUserId = getCurrentUserFromLocalStorage().id;
+
     const navigate = useNavigate();
+
     const pageStyle = {
         margin: "15px"
     }
 
+    //fetch associated challenge data and matching groupUserId (based on challengeId and current user Id)
     useEffect(() => {
         // Fetch the groupId and groupUserId using the API function
         getChallengeById(challengeId)
@@ -28,7 +31,7 @@ const ResultCreatePage = () => {
                         if (groupUser) {
                             setGroupUserId(groupUser.id);
                         } else {
-                            // If the groupUser is not found, handle it as per your application requirements
+                            // If the groupUser is not found, handle it
                         }
                     })
             })

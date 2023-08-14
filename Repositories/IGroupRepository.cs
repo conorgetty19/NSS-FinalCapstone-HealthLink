@@ -1,4 +1,13 @@
-﻿using HealthLink.Models;
+﻿/*
+    IGroupRepository.cs
+
+    This file defines the IGroupRepository interface, which outlines the contract for interacting
+    with group data in the database. It specifies the methods that classes implementing this
+    interface should provide, enabling CRUD (Create, Read, Update, Delete) operations on group entities.
+
+*/
+
+using HealthLink.Models;
 using System.Collections.Generic;
 
 namespace HealthLink.Repositories

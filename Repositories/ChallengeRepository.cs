@@ -1,4 +1,18 @@
-﻿using HealthLink.Models;
+﻿/*
+    ChallengeRepository.cs
+
+    This file contains the implementation of the ChallengeRepository class.
+    ChallengeRepository is responsible for handling database operations related to challenges.
+
+    - GetChallengesByGroupId: Retrieves a list of challenges associated with a specific group ID.
+    - GetChallengeById: Retrieves a challenge by its ID.
+    - Add: Adds a new challenge to the database.
+    - Update: Updates an existing challenge in the database.
+
+    This repository extends the BaseRepository class, inheriting common database connection logic.
+*/
+
+using HealthLink.Models;
 using HealthLink.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;

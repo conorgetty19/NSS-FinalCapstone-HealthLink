@@ -25,7 +25,7 @@ export default function Header({ isLoggedIn, role }) {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
-                        { /* When isLoggedIn === true, we will render the links */}
+                        {/* Conditional Rendering of Links based on isLoggedIn */}
                         {isLoggedIn &&
                             <>
                                 <NavItem>

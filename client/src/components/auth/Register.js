@@ -5,6 +5,8 @@ import { register } from "../../modules/authManager";
 
 export default function Register() {
     const navigate = useNavigate();
+
+    // Styles for page elements
     const pageStyle = {
         width: "600px",
         margin: "auto",
@@ -23,6 +25,8 @@ export default function Register() {
         marginTop: "31px"
     }
 
+
+    // State variables for form inputs
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const fullName = firstName + " " + lastName;
@@ -32,6 +36,7 @@ export default function Register() {
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
 
+    // Register form submission handler
     const registerClick = (e) => {
         e.preventDefault();
         if (password && password !== confirmPassword) {

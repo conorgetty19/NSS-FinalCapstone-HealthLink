@@ -3,6 +3,7 @@ import "firebase/auth";
 
 const _apiUrl = "/api/userprofile";
 
+// Check if a user with the provided Firebase user ID exists in the app's database
 const _doesUserExist = (firebaseUserId) => {
     return getToken().then((token) =>
         fetch(`${_apiUrl}/DoesUserExist/${firebaseUserId}`, {
@@ -13,6 +14,7 @@ const _doesUserExist = (firebaseUserId) => {
         }).then(resp => resp.ok));
 };
 
+// Save a user profile in the app's database
 const _saveUser = (userProfile) => {
     return getToken().then((token) =>
         fetch(_apiUrl, {
@@ -26,10 +28,10 @@ const _saveUser = (userProfile) => {
 };
 
 
-
+// Get the authentication token of the current user
 export const getToken = () => firebase.auth().currentUser.getIdToken();
 
-
+// Log in a user using email and password
 export const login = (email, pw) => {
     return firebase.auth().signInWithEmailAndPassword(email, pw)
         .then((signInResponse) => _doesUserExist(signInResponse.user.uid))
@@ -52,7 +54,7 @@ export const logout = () => {
     firebase.auth().signOut()
 };
 
-
+// Register a new user with a user profile and password
 export const register = (userProfile, password) => {
     return firebase.auth().createUserWithEmailAndPassword(userProfile.email, password)
         .then((createResponse) => _saveUser({
@@ -61,13 +63,15 @@ export const register = (userProfile, password) => {
         }));
 };
 
-
+// Listen for changes in login status and execute a handler
 export const onLoginStatusChange = (onLoginStatusChangeHandler) => {
     firebase.auth().onAuthStateChanged((user) => {
         onLoginStatusChangeHandler(!!user);
     });
 };
 
+// Set the local user ID in the browser's local storage based on the email
+//refactor to use a search by firebaseId instead of email
 export const setLocalUserId = (email) => {
     return getToken().then((token) => {
         return fetch(`${_apiUrl}/userSearch/${email}`, {

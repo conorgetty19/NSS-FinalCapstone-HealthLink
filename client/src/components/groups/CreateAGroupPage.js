@@ -8,11 +8,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function CreateGroupPage() {
     const [leadUserProfileId, setLeadUserProfileId] = useState(null);
+
     const navigate = useNavigate();
+
+
     const pageStyle = {
         margin: "15px"
     }
 
+    // Fetch the lead user's profile ID from local storage when the component mounts
     useEffect(() => {
         // Get the leadUserProfileId from local storage on component mount
         const HealthLinkUserObject = getCurrentUserFromLocalStorage();
@@ -20,18 +24,20 @@ export default function CreateGroupPage() {
         setLeadUserProfileId(userId);
     }, []);
 
+    // Handle the form submission
     const handleSubmit = (formData) => {
         formData.leadUserProfileId = leadUserProfileId
         // Call the API to create the group using formData
         createGroup(formData)
             .then((createdGroup) => {
-                // Call the API to create the groupUser with the created group's Id and the leader's Id
                 const groupUserFormData = {
                     groupId: createdGroup.id,
                     userProfileId: formData.leadUserProfileId,
                 };
+                // Create a groupUser associated with the created group and the leader's profile
                 addGroupUser(groupUserFormData)
                     .then((createdGroupUser) => {
+                        // Navigate to the newly created group's page
                         navigate(`/group/${createdGroup.id}`);
                     })
                     .catch((error) => {

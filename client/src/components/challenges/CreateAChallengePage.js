@@ -19,33 +19,40 @@ const CreateAChallengePage = () => {
         margin: "15px"
     }
 
+    // Fetch the user's groups and populate the group options for the challenge
     useEffect(() => {
         getMyGroups(currentUser.id).then((groups) => {
             setGroupOptions(groups)
         })
     }, [])
 
+
+    //refactor these change handlers to be one utility function
     const handleTitleChange = (title) => {
+        // Update the challenge title in the state
         setChallenge((prevChallenge) => ({ ...prevChallenge, title }));
     };
 
     const handleDescriptionChange = (description) => {
+        // Update the challenge description in the state
         setChallenge((prevChallenge) => ({ ...prevChallenge, description }));
     };
 
     const handleEndDateChange = (endDate) => {
+        // Update the challenge end date in the state
         setChallenge((prevChallenge) => ({ ...prevChallenge, EndDateTime: endDate }));
     };
 
     const handleGroupChange = (groupId) => {
+        // Update the selected group ID in the state
         setChallenge((prevChallenge) => ({ ...prevChallenge, groupId }));
     };
 
     const handleSubmit = () => {
+        // Create a new challenge using the provided data
         createChallenge(challenge)
             .then((newChallenge) => {
                 // Navigate to the group details page for the associated group using the newChallenge data
-                // You can use the newChallenge.groupId to construct the URL
                 Navigate(`/challenge/${newChallenge.id}`);
             })
             .catch((error) => {

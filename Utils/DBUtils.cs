@@ -1,11 +1,13 @@
+/*
+    DBUtils.cs
+    A set of useful function for interacting with ADO.NET
+ */
+
 using System;
 using Microsoft.Data.SqlClient;
 
 namespace HealthLink.Utils
 {
-    /// <summary>
-    ///  A set of useful function for interacting with ADO.NET
-    /// </summary>
     public static class DbUtils
     {
         /// <summary>

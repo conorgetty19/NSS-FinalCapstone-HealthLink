@@ -1,10 +1,20 @@
-﻿using Microsoft.Data.SqlClient;
+﻿/*
+    GroupRepository.cs
+
+    This file defines the GroupRepository class, responsible for interacting with the database
+    to perform CRUD (Create, Read, Update, Delete) operations related to group entities.
+
+    The GroupRepository class extends the BaseRepository class, which provides the common database
+    connection functionality. It implements the IGroupRepository interface, which outlines the
+    contract for interacting with group data.
+
+*/
+
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using HealthLink.Models;
 using HealthLink.Utils;
-using System.Data;
-using Azure;
 
 namespace HealthLink.Repositories
 {
@@ -12,6 +22,8 @@ namespace HealthLink.Repositories
     {
         public GroupRepository(IConfiguration configuration) : base(configuration) { }
 
+        //retrieves all groups REGARDLESS of active or inactive status
+        //(currently defined by leadership or lack thereof)
         public List<Group> GetAll()
         {
             using (SqlConnection conn = Connection)
@@ -37,7 +49,7 @@ namespace HealthLink.Repositories
                 }
             }
         }
-
+        //retrieves a list of active groups (currently defined by presence of a leader)
         public List<Group> GetAllActive()
         {
             using (SqlConnection conn = Connection)
@@ -205,12 +217,13 @@ namespace HealthLink.Repositories
                                             INNER JOIN [UserProfile] l ON g.LeaderUserProfileId = l.Id
                                             LEFT JOIN [GroupUser] gu ON g.Id = gu.GroupId";
 
+        //utility method to find a match amongst a list of groups
         private Group FindGroupInList(List<Group> groups, SqlDataReader reader)
         {
             int groupId = DbUtils.GetInt(reader, "GroupId");
             return groups.Find(g => g.Id == groupId);
         }
-
+        //utility method to create a new group object from the results of a database query
         private Group NewGroup(SqlDataReader reader)
         {
             Group group = new Group()

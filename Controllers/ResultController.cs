@@ -1,4 +1,12 @@
-﻿using HealthLink.Models;
+﻿/*
+    ResultController.cs
+
+    This controller handles API endpoints related to results of challenges.
+    It provides methods for retrieving, creating, updating, and deleting challenge results.
+
+*/
+
+using HealthLink.Models;
 using HealthLink.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

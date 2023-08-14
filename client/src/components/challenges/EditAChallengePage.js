@@ -19,6 +19,7 @@ const EditChallengePage = () => {
                     // Convert the endDate to the format expected by datetime-local input
                     endDateTime: fetchedChallenge.endDateTime.slice(0, 16),
                 });
+                // Fetch the group associated with the challenge
                 getGroupById(fetchedChallenge.groupId).then((group) => {
                     setGroupOption(group);
                 });
@@ -28,15 +29,20 @@ const EditChallengePage = () => {
             });
     }, [challengeId]);
 
+
+    //refactor these change handlers to be one utility function
     const handleTitleChange = (title) => {
+        // Update the challenge title in the state
         setChallenge((prevChallenge) => ({ ...prevChallenge, title }));
     };
 
     const handleDescriptionChange = (description) => {
+        // Update the challenge description in the state
         setChallenge((prevChallenge) => ({ ...prevChallenge, description }));
     };
 
     const handleEndDateChange = (endDate) => {
+        // Update the challenge end date in the state
         setChallenge((prevChallenge) => ({ ...prevChallenge, endDateTime: endDate }));
     };
 
@@ -44,6 +50,7 @@ const EditChallengePage = () => {
         // Submit the updated challenge data to the API
         updateChallenge(challenge)
             .then((updatedChallenge) => {
+                // Navigate back to the challenge details page after updating
                 Navigate(`/challenge/${challengeId}`);
             })
             .catch((error) => {
@@ -52,7 +59,7 @@ const EditChallengePage = () => {
     };
 
     if (!challenge || !groupOption) {
-        // You can render a loading indicator here while waiting for the challenge data to load
+        // Render a loading indicator here while waiting for the challenge data to load
         return <div>Loading...</div>;
     }
 

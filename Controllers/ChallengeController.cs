@@ -1,4 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*
+    ChallengeController.cs
+
+    This controller handles API endpoints related to challenges.
+    It provides methods for retrieving, creating, and updating challenges.
+
+*/
+
+using Microsoft.AspNetCore.Mvc;
 using HealthLink.Repositories;
 using HealthLink.Models;
 using Microsoft.AspNetCore.Authorization;

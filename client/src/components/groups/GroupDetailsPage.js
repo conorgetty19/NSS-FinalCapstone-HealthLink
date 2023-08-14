@@ -13,7 +13,10 @@ export default function GroupDetailsPage() {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png";
     const currentUser = getCurrentUserFromLocalStorage();
     const currentUserId = currentUser.id;
+
     const Navigate = useNavigate();
+
+    //assorted styles
     const pageStyle = {
         margin: "15px",
         height: "30rem",
@@ -26,6 +29,7 @@ export default function GroupDetailsPage() {
         width: "calc(100% / 3)"
     }
 
+    // Handler for joining groups
     const handleJoinGroup = () => {
         const groupUser = {
             groupId: group.id,
@@ -36,7 +40,7 @@ export default function GroupDetailsPage() {
                 window.location.reload();
             })
     };
-
+    // Handler for leaving groups
     const handleLeaveGroup = () => {
         const groupUserId = groupUser.id;
         deleteGroupUser(groupUserId)
@@ -45,6 +49,7 @@ export default function GroupDetailsPage() {
             })
     }
 
+    // Fetch group details on component mount
     useEffect(() => {
         getGroupById(id)
             .then((data) => {
@@ -53,11 +58,14 @@ export default function GroupDetailsPage() {
             .catch((error) => console.error("Error fetching group details:", error));
     }, [id]);
 
+    // Render loading if group data is not yet fetched
     if (!group) {
         return <div>Loading...</div>;
     }
 
+    // Check if the current user is a member of the group
     const isMember = group.members.some((member) => member.userProfileId === currentUserId);
+    //if isMember, find appropriate groupUser data
     const groupUser = isMember ? group.members.find((member) => member.userProfileId === currentUserId) : null;
 
     return (
@@ -73,16 +81,21 @@ export default function GroupDetailsPage() {
                     <p className="h5">{group.description}</p>
 
                     <div className="mt-2 mb-2">
+                        {/*Render join group button if user is not a member yet*/}
                         {!isMember && (
                             <Button onClick={handleJoinGroup} color="primary" className="mr-2">
                                 Join Group
                             </Button>
                         )}
+                        {/*Render leave button is user is a member*/}
                         {isMember && (
                             <Button onClick={handleLeaveGroup} color="secondary" className="mr-2">
                                 Leave Group
                             </Button>
                         )}
+                        {/*Render group edit button if user is the leader or if there is no leader
+                        if no leader, users should be able to take leadership
+                        may require a navigation to a different edit form.?*/}
                         {currentUserId === group.leadUserProfileId || group.leadUserProfileId === null ? (
                             <Button color="primary"
                                 style={editButtonStyle}
@@ -99,6 +112,7 @@ export default function GroupDetailsPage() {
             <div style={columnStyle}>
                 <h2>Members</h2>
                 <div className="d-flex flex-wrap">
+                    {/*Refactor member cards into different component*/}
                     {group.members.map((member) => (
                         <Card key={member.id} className="m-2" style={{ width: "18rem" }}>
                             <CardImg
@@ -120,6 +134,7 @@ export default function GroupDetailsPage() {
             <div style={columnStyle}>
                 <h2>Challenges</h2>
                 <div className="d-flex flex-wrap">
+                    {/*Refactor challenges card construction into another component*/}
                     {group.challenges.map((challenge) => (
                         <Card key={challenge.id} className="m-2" style={{ width: "18rem" }}>
                             <CardBody>

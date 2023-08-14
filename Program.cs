@@ -1,11 +1,13 @@
+/*
+    Program.cs
+
+    This file contains the entry point for the HealthLink ASP.NET Core application.
+    It defines the `Main` method and the `CreateHostBuilder` method, which are used
+    to configure and start the application.
+
+*/
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HealthLink
 {
