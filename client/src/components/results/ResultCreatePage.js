@@ -7,7 +7,7 @@ import { getChallengeById } from '../../modules/challengeManager';
 import { getGroupUserByBothIds } from '../../modules/userProfileManager';
 import { Button } from 'reactstrap'
 
-const ResultCreatePage = () => {
+export default function ResultCreatePage() {
     const { challengeId } = useParams();
     const [content, setContent] = useState('');
     const [groupUserId, setGroupUserId] = useState(0);
@@ -64,5 +64,3 @@ const ResultCreatePage = () => {
         </div>
     );
 };
-
-export default ResultCreatePage;

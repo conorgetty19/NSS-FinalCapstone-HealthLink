@@ -4,7 +4,7 @@ import ChallengeForm from './ChallengeForm';
 import { getChallengeById, updateChallenge } from '../../modules/challengeManager';
 import { getGroupById } from '../../modules/groupManager';
 
-const EditChallengePage = () => {
+export default function EditChallengePage() {
     const { challengeId } = useParams();
     const [challenge, setChallenge] = useState(null);
     const [groupOption, setGroupOption] = useState(null);
@@ -77,5 +77,3 @@ const EditChallengePage = () => {
         </div>
     );
 };
-
-export default EditChallengePage;

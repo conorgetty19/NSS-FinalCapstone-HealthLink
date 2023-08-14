@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUserFromLocalStorage } from '../../modules/userProfileManager';
 import { getMyGroups } from '../../modules/groupManager';
 
-const CreateAChallengePage = () => {
+export default function CreateAChallengePage() {
     const [challenge, setChallenge] = useState({
         title: '',
         description: '',
@@ -75,5 +75,3 @@ const CreateAChallengePage = () => {
         </div>
     );
 };
-
-export default CreateAChallengePage;
