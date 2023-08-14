@@ -3,7 +3,7 @@ import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import { deleteResult } from '../../modules/resultManager';
 import { useNavigate } from 'react-router-dom';
 
-const MemberResultCard = ({ result, currentUser, isBeforeEndDate }) => {
+export default function MemberResultCard({ result, currentUser, isBeforeEndDate }) {
     const navigate = useNavigate();
     const handleEditClick = () => { navigate(`/challenge/result/${result.id}`) }
     const handleDeleteClick = () => {
@@ -35,5 +35,3 @@ const MemberResultCard = ({ result, currentUser, isBeforeEndDate }) => {
         </Card>
     );
 };
-
-export default MemberResultCard;

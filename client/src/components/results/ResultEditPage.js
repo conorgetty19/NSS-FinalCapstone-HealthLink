@@ -4,7 +4,7 @@ import ResultForm from './ResultForm';
 import { getResultById, updateResult } from '../../modules/resultManager';
 import { Button } from 'reactstrap';
 
-const ResultEditPage = () => {
+export default function ResultEditPage() {
     const { resultId } = useParams();
     const [retrievedResult, setResult] = useState(null);
 
@@ -46,5 +46,3 @@ const ResultEditPage = () => {
         </div>
     );
 };
-
-export default ResultEditPage;

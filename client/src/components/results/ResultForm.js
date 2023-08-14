@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ResultForm = ({ result, onContentChange }) => {
+export default function ResultForm({ result, onContentChange }) {
     return (
         <div>
             <label htmlFor="content">Content:</label>
@@ -13,5 +13,3 @@ const ResultForm = ({ result, onContentChange }) => {
         </div>
     );
 };
-
-export default ResultForm;
