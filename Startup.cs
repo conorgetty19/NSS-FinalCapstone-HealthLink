@@ -1,3 +1,11 @@
+/*
+    Startup.cs
+
+    This file is responsible for configuring the ASP.NET Core application's services and middleware.
+    It defines the ConfigureServices and Configure methods, which set up the application's behavior.
+
+*/
+
 using HealthLink.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -24,10 +32,13 @@ namespace HealthLink
         {
 
             services.AddControllers();
+            // Configure Swagger for API documentation
             services.AddSwaggerGen(c =>
             {
+                // Define Swagger documentation details
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HealthLink", Version = "v1" });
 
+                // Configure JWT Bearer authentication in Swagger
                 var securitySchema = new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -48,10 +59,13 @@ namespace HealthLink
                     { securitySchema, new[] { "Bearer"} }
                 });
             });
+            // Register repository services for dependency injection
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IGroupRepository,  GroupRepository>();
             services.AddTransient<IChallengeRepository, ChallengeRepository>();
             services.AddTransient<IResultRepository, ResultRepository>();
+
+            // Configure Firebase JWT Bearer authentication
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
             services

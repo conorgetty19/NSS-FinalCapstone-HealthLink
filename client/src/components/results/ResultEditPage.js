@@ -7,7 +7,9 @@ import { Button } from 'reactstrap';
 const ResultEditPage = () => {
     const { resultId } = useParams();
     const [retrievedResult, setResult] = useState(null);
+
     const navigate = useNavigate();
+
     const pageStyle = {
         margin: "15px"
     }

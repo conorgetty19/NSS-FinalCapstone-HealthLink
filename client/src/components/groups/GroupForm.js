@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 export default function GroupForm({ group, leadUserProfileId, onSubmit }) {
+    // Initialize form data state with default values
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -9,6 +10,7 @@ export default function GroupForm({ group, leadUserProfileId, onSubmit }) {
         leadUserProfileId: leadUserProfileId || 0,
     });
 
+    // Update form data when group changes
     useEffect(() => {
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -24,6 +26,7 @@ export default function GroupForm({ group, leadUserProfileId, onSubmit }) {
             });
         }
     }, [group]);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

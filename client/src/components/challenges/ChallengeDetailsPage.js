@@ -17,6 +17,8 @@ export default function ChallengeDetailsPage() {
     const [results, setResults] = useState([]);
     const currentUser = getCurrentUserFromLocalStorage();
     const Navigate = useNavigate();
+
+    // Styles
     const pageStyle = {
         margin: "15px"
     }
@@ -25,6 +27,7 @@ export default function ChallengeDetailsPage() {
         width: "40%"
     }
 
+    // Fetch challenge details on page load
     useEffect(() => {
         // Fetch challenge details
         getChallengeById(challengeId)
@@ -32,6 +35,7 @@ export default function ChallengeDetailsPage() {
             .catch((error) => console.error(error));
     }, [challengeId]);
 
+    // Fetch group details and challenge results
     useEffect(() => {
         if (challenge && challenge.groupId) {
             getGroupById(challenge.groupId)
@@ -59,6 +63,7 @@ export default function ChallengeDetailsPage() {
         }
     }, [challenge]);
 
+    // Check if the user is a member of the group
     useEffect(() => {
         if (group.members) {
             const isUserMember = group.members.some(
@@ -68,6 +73,7 @@ export default function ChallengeDetailsPage() {
         }
     }, [group])
 
+    // Check if the user has submitted results
     useEffect(() => {
         const hasUserResults = results.some(
             (result) => result.groupUser.userProfileId === currentUser.id
@@ -82,6 +88,7 @@ export default function ChallengeDetailsPage() {
             return <p>Loading challenge details...</p>;
         }
 
+        // Check if challenge is still ongoing
         const currentDate = new Date();
         const isBeforeEndDate = currentDate < new Date(challenge.endDateTime);
         const handleJoinClick = () => {
@@ -89,7 +96,8 @@ export default function ChallengeDetailsPage() {
                 Navigate(`/challenge/${challengeId}/join`);
             }
             else {
-                //just in case a non-member sees the button
+                /// Redirect to group page for non-members
+                //in case a non-member sees button
                 Navigate(`/group/${group.id}`)
             }
         }

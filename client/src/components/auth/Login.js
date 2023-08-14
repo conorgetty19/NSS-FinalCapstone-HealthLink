@@ -5,6 +5,8 @@ import { login, setLocalUserId } from "../../modules/authManager";
 
 export default function Login() {
     const navigate = useNavigate();
+
+    // Styles for page elements
     const pageStyle = {
         width: "300px",
         margin: "auto",
@@ -22,9 +24,11 @@ export default function Login() {
         marginLeft: "0px"
     }
 
+    // State variables for form inputs
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
+    // Login form submission handler
     const loginSubmit = (e) => {
         e.preventDefault();
         login(email, password).then(() => setLocalUserId(email))

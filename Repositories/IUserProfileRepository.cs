@@ -1,5 +1,4 @@
-﻿using HealthLink.Models;
-/*
+﻿/*
     IUserProfileRepository.cs
 
     This interface defines the contract for interacting with user profiles and group-user relationships in the database.
@@ -7,7 +6,7 @@
     and group-user relationships.
 
 */
-
+using HealthLink.Models;
 using System.Collections.Generic;
 
 namespace HealthLink.Repositories
