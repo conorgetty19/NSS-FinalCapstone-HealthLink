@@ -5,12 +5,12 @@ import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, Nav
 import { getCurrentUserFromLocalStorage } from "../../modules/userProfileManager";
 import { addGroupUser } from "../../modules/userProfileManager";
 import { deleteGroupUser } from "../../modules/userProfileManager";
+import GroupMemberCard from "./GroupMemberCard";
 
 export default function GroupDetailsPage() {
     const [group, setGroup] = useState(null);
     const { id } = useParams();
-    const defaultImageUrl =
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png";
+
     const currentUser = getCurrentUserFromLocalStorage();
     const currentUserId = currentUser.id;
 
@@ -114,20 +114,7 @@ export default function GroupDetailsPage() {
                 <div className="d-flex flex-wrap">
                     {/*Refactor member cards into different component*/}
                     {group.members.map((member) => (
-                        <Card key={member.id} className="m-2" style={{ width: "18rem" }}>
-                            <CardImg
-                                top
-                                width="100%"
-                                src={member.userProfile.imageUrl || defaultImageUrl}
-                                alt={member.userProfile.username}
-                                style={{ width: "20%", height: "auto", marginRight: "10px", marginLeft: "4px", marginTop: "4px" }}
-                            />
-                            <CardBody>
-                                <CardTitle tag="h5">{member.userProfile.username}</CardTitle>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted">
-                                </CardSubtitle>
-                            </CardBody>
-                        </Card>
+                        <GroupMemberCard member={member} />
                     ))}
                 </div>
             </div>
