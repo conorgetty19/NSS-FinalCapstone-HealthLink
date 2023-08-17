@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getGroupById } from "../../modules/groupManager";
-import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, Nav } from "reactstrap";
+import { Button } from "reactstrap";
 import { getCurrentUserFromLocalStorage } from "../../modules/userProfileManager";
 import { addGroupUser } from "../../modules/userProfileManager";
 import { deleteGroupUser } from "../../modules/userProfileManager";
 import GroupMemberCard from "./GroupMemberCard";
+import GroupChallengeCard from "./GroupChallengeCard";
 
 export default function GroupDetailsPage() {
     const [group, setGroup] = useState(null);
@@ -114,7 +115,7 @@ export default function GroupDetailsPage() {
                 <div className="d-flex flex-wrap">
                     {/*Refactor member cards into different component*/}
                     {group.members.map((member) => (
-                        <GroupMemberCard member={member} />
+                        <GroupMemberCard key={member.id} member={member} />
                     ))}
                 </div>
             </div>
@@ -123,14 +124,7 @@ export default function GroupDetailsPage() {
                 <div className="d-flex flex-wrap">
                     {/*Refactor challenges card construction into another component*/}
                     {group.challenges.map((challenge) => (
-                        <Card key={challenge.id} className="m-2" style={{ width: "18rem" }}>
-                            <CardBody>
-                                <Link to={`/challenge/${challenge.id}`}>
-                                    <CardTitle tag="h5">{challenge.title}</CardTitle>
-                                </Link>
-                                <CardText>{challenge.description}</CardText>
-                            </CardBody>
-                        </Card>
+                        <GroupChallengeCard key={challenge.id} challenge={challenge} />
                     ))}
                 </div>
             </div>
