@@ -30,26 +30,10 @@ export default function EditChallengePage() {
     }, [challengeId]);
 
 
-    //refactor these change handlers to be one utility function
-    const handleTitleChange = (title) => {
-        // Update the challenge title in the state
-        setChallenge((prevChallenge) => ({ ...prevChallenge, title }));
-    };
-
-    const handleDescriptionChange = (description) => {
-        // Update the challenge description in the state
-        setChallenge((prevChallenge) => ({ ...prevChallenge, description }));
-    };
-
-    const handleEndDateChange = (endDate) => {
-        // Update the challenge end date in the state
-        setChallenge((prevChallenge) => ({ ...prevChallenge, endDateTime: endDate }));
-    };
-
-    const handleSubmit = () => {
+    const handleSubmit = (formData) => {
         // Submit the updated challenge data to the API
-        updateChallenge(challenge)
-            .then((updatedChallenge) => {
+        updateChallenge(formData)
+            .then(() => {
                 // Navigate back to the challenge details page after updating
                 Navigate(`/challenge/${challengeId}`);
             })
@@ -69,10 +53,7 @@ export default function EditChallengePage() {
             <ChallengeForm
                 challenge={challenge}
                 groups={[groupOption]}
-                onTitleChange={handleTitleChange}
-                onDescriptionChange={handleDescriptionChange}
-                onEndDateChange={handleEndDateChange}
-                onSubmit={handleSubmit}
+                onSubmit={(formData) => handleSubmit(formData)}
             />
         </div>
     );
